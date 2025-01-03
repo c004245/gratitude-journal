@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "108280400124",
+    "project_id": "gratitude-journal-c2550",
+    "storage_bucket": "gratitude-journal-c2550.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:108280400124:android:f540ff113fb9c62bb5ef79",
+        "android_client_info": {
+          "package_name": "kr.co.hyunwook.gratitude_journal"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvSJs-4iwRHqqZLA2sXwthxmMoLGTXGWE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

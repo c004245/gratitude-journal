@@ -2,11 +2,14 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    id("dagger.hilt.android.plugin")
+    id("kotlin-kapt")
+    alias(libs.plugins.google.services)
 }
 
 android {
     namespace = "kr.co.hyunwook.gratitude_journal"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "kr.co.hyunwook.gratitude_journal"
@@ -56,4 +59,26 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    implementation(libs.androidx.datastore)
+
+
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.room.runtime)
+
+    kapt(libs.androidx.room.compiler)
+
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.accompanist.systemuicontroller)
+    implementation(libs.androidx.core.splashscreen)
+
+
+    implementation(libs.androidx.compose.navigation)
+    implementation(libs.hilt.navigation.compose)
+    implementation(libs.hilt.core)
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
+    implementation(libs.hilt.navigation.compose)
+    kapt(libs.hilt.compiler)
+
 }
