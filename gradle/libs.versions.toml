@@ -18,7 +18,7 @@ hilt = "2.51.1"
 hiltNavigationCompose = "1.2.0"
 
 serialization = "1.5.1"
-accompanist = "0.24.2-alpha"
+foundation = "1.5.0"
 androidxComposeNavigation = "2.8.0"
 androidxCoreSplash = "1.0.1"
 androidxRoom = "2.6.1"
@@ -60,6 +60,8 @@ androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", versi
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
 
 accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanistSystemuicontroller" }
+compose-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "foundation"}
+
 
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase-bom"}
 

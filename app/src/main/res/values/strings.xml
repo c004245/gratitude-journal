@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">gratitude-journal</string>
+    <string name="text_next">다음</string>
 </resources>
