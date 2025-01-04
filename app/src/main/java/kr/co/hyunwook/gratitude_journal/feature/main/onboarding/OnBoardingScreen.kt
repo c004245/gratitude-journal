@@ -1,5 +1,6 @@
 package kr.co.hyunwook.gratitude_journal.feature.main.onboarding
 
+import kotlinx.coroutines.launch
 import kr.co.hyunwook.gratitude_journal.R
 import kr.co.hyunwook.gratitude_journal.core.designsystem.theme.purpleC4
 import kr.co.hyunwook.gratitude_journal.ui.theme.GratitudeTheme
@@ -16,7 +17,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
@@ -94,7 +94,15 @@ fun OnBoardingScreen(
         }
         Button(
             onClick = {
+                scope.launch {
+                    if (pagerState.currentPage < pages.size - 1) {
+                        pagerState.animateScrollToPage(pagerState.currentPage + 1)
+                    } else {
+                        onBoardingViewModel.doneOnBoarding()
 
+//                        navigateToHome()
+                    }
+                }
 
             },
             modifier = Modifier.align(Alignment.BottomCenter)
@@ -112,7 +120,11 @@ fun OnBoardingScreen(
             )
         ) {
             Text(
-                text = stringResource(id = R.string.text_next),
+                text = if (pagerState.currentPage < pages.size - 1) {
+                    stringResource(id = R.string.text_next)
+                } else {
+                    stringResource(id = R.string.text_start)
+                },
                 style = GratitudeTheme.typography.bold,
                 color = Color.White,
                 fontSize = 14.sp

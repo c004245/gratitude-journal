@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">gratitude-journal</string>
     <string name="text_next">다음</string>
+    <string name="text_start">감사일기 쓰러가기!</string>
 </resources>
