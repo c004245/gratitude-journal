@@ -37,7 +37,6 @@ fun SplashScreen(
     LaunchedEffect(viewModel.sideEffects, lifecycleOwner) {
         viewModel.sideEffects.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
             .collect { sideEffect ->
-                Log.d("HWO", "sideEffect -> $sideEffect")
                 when (sideEffect) {
                     is SplashSideEffect.NavigateToOnBoarding -> navigateToOnBoarding()
                     is SplashSideEffect.NavigateToHome -> navigateToHome()

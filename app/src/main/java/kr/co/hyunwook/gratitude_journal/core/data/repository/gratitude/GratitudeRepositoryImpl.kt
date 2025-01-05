@@ -8,8 +8,9 @@ class GratitudeRepositoryImpl @Inject constructor(
     private val gratitudePreferencesDataSource: GratitudePreferencesDataSource
 ): GratitudeRepository {
 
-    override suspend fun getIsShowOnBoarding(): Flow<Boolean> {
-        gratitudePreferencesDataSource.get
+    override suspend fun getIsShowOnBoarding(): Flow<Boolean> = gratitudePreferencesDataSource.isShowOnBoarding
 
+    override suspend fun saveShowOnBoarding() {
+        gratitudePreferencesDataSource.saveShowOnBoarding()
     }
 }

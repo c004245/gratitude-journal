@@ -5,5 +5,6 @@ import kotlinx.coroutines.flow.Flow
 interface GratitudePreferencesDataSource {
     val isShowOnBoarding: Flow<Boolean>
 
-    suspend fun getIsShowOnBoarding(isShow: Boolean)
+    suspend fun saveShowOnBoarding()
+
 }

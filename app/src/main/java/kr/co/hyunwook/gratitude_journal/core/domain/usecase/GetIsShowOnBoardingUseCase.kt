@@ -6,9 +6,9 @@ import javax.inject.Inject
 /**
  * 온보딩 봤는지 여부
  */
-class DoneOnBoardingUseCase @Inject constructor(
+class GetIsShowOnBoardingUseCase @Inject constructor(
     private val gratitudeRepository: GratitudeRepository
 ) {
-    suspend
+    suspend operator fun invoke() = gratitudeRepository.getIsShowOnBoarding()
 
 }

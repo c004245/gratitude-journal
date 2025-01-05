@@ -4,6 +4,7 @@ import kotlinx.coroutines.launch
 import kr.co.hyunwook.gratitude_journal.R
 import kr.co.hyunwook.gratitude_journal.core.designsystem.theme.purpleC4
 import kr.co.hyunwook.gratitude_journal.ui.theme.GratitudeTheme
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -67,7 +68,9 @@ fun OnBoardingScreen(
     val scope = rememberCoroutineScope()
 
     LaunchedEffect(Unit) {
-
+        onBoardingViewModel.saveOnBoardingEvent.collect {
+            navigateToHome()
+        }
     }
 
     Box(
@@ -98,7 +101,7 @@ fun OnBoardingScreen(
                     if (pagerState.currentPage < pages.size - 1) {
                         pagerState.animateScrollToPage(pagerState.currentPage + 1)
                     } else {
-                        onBoardingViewModel.doneOnBoarding()
+                        onBoardingViewModel.showOnBoardingDone()
 
 //                        navigateToHome()
                     }
