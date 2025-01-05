@@ -128,7 +128,7 @@ fun OnBoardingScreen(
                 } else {
                     stringResource(id = R.string.text_start)
                 },
-                style = GratitudeTheme.typography.bold,
+                style = GratitudeTheme.typography.regular,
                 color = Color.White,
                 fontSize = 14.sp
             )
@@ -151,14 +151,14 @@ fun OnBoardingPage(data: OnBoardingData) {
         )
         Text(
             text = data.title,
-            style = GratitudeTheme.typography.bold,
+            style = GratitudeTheme.typography.regular,
             fontSize = 24.sp,
             textAlign = TextAlign.Center
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
             text = data.description,
-            style = GratitudeTheme.typography.medium,
+            style = GratitudeTheme.typography.regular,
             fontSize = 16.sp,
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(horizontal = 16.dp)

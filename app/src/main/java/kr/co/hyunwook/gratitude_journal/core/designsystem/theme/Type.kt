@@ -15,43 +15,23 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 
 
-val notosansBold = FontFamily(Font(R.font.notosans_bold, FontWeight.Bold))
-val notosansLight = FontFamily(Font(R.font.notosans_light, FontWeight.Light))
-val notosansMedium = FontFamily(Font(R.font.notosans_medium, FontWeight.Medium))
-val notosansRegular = FontFamily(Font(R.font.notosans_regular, FontWeight.Normal))
 
+val gowunRegular = FontFamily(Font(R.font.gowundodum_regular, FontWeight.Normal))
 
 @Stable
 class GratitudeTypography internal constructor(
-    bold: TextStyle,
-    light: TextStyle,
-    medium: TextStyle,
     regular: TextStyle
 
 ) {
-    var bold: TextStyle by mutableStateOf(bold)
-        private set
 
-    var light: TextStyle by mutableStateOf(bold)
-        private set
-
-    var medium: TextStyle by mutableStateOf(bold)
-        private set
-
-    var regular: TextStyle by mutableStateOf(bold)
+    var regular: TextStyle by mutableStateOf(regular)
         private set
 
     fun copy(
-        bold: TextStyle = this.bold,
-        light: TextStyle = this.light,
-        medium: TextStyle = this.medium,
         regular: TextStyle = this.regular
-    ): GratitudeTypography = GratitudeTypography(bold, light, medium, regular)
+    ): GratitudeTypography = GratitudeTypography(regular)
 
     fun update(other: GratitudeTypography) {
-        bold = other.bold
-        light = other.light
-        medium = other.medium
         regular = other.regular
     }
 }
@@ -76,26 +56,8 @@ class GratitudeTypography internal constructor(
     @Composable
     fun gratitudeTypography(): GratitudeTypography {
         return GratitudeTypography(
-            bold = gratitudeTextStyle(
-                fontFamily = notosansBold,
-                fontWeight = FontWeight.Bold,
-                fontSize = 21.sp,
-                lineHeight = 30.sp
-            ),
-            light = gratitudeTextStyle(
-                fontFamily = notosansLight,
-                fontWeight = FontWeight.Light,
-                fontSize = 17.sp,
-                lineHeight = 25.sp
-            ),
-            medium = gratitudeTextStyle(
-                fontFamily = notosansMedium,
-                fontWeight = FontWeight.Medium,
-                fontSize = 17.sp,
-                lineHeight = 25.sp,
-            ),
             regular = gratitudeTextStyle(
-                fontFamily = notosansRegular,
+                fontFamily = gowunRegular,
                 fontWeight = FontWeight.Normal,
                 fontSize = 17.sp,
                 lineHeight = 25.sp
