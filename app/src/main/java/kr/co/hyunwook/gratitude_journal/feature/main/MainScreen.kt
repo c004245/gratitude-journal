@@ -1,10 +1,12 @@
 package kr.co.hyunwook.gratitude_journal.feature.main
 
+import kotlinx.coroutines.launch
 import kr.co.hyunwook.gratitude_journal.R
 import kr.co.hyunwook.gratitude_journal.core.designsystem.theme.black21
 import kr.co.hyunwook.gratitude_journal.core.designsystem.theme.purple6C
 import kr.co.hyunwook.gratitude_journal.core.designsystem.theme.purpleC4
 import kr.co.hyunwook.gratitude_journal.core.navigation.Route
+import kr.co.hyunwook.gratitude_journal.feature.add.BottomSheetContent
 import kr.co.hyunwook.gratitude_journal.feature.home.navigation.Home
 import kr.co.hyunwook.gratitude_journal.feature.home.navigation.homeNavGraph
 import kr.co.hyunwook.gratitude_journal.feature.main.onboarding.navigation.OnBoarding
@@ -30,12 +32,18 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -44,6 +52,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHost
 import androidx.navigation.compose.NavHost
@@ -55,8 +64,14 @@ internal fun MainScreen(
     navigator: MainNavigator = rememberMainNavigator(),
 ) {
     val coroutineScope = rememberCoroutineScope()
+    val sheetState = rememberModalBottomSheetState(
+        skipPartiallyExpanded = true
+    )
+
+    var isSheetOpen by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
+//        viewModel()
 
     }
 
@@ -97,7 +112,10 @@ internal fun MainScreen(
             if (navigator.isShowBottomBar()) {
                 CustomBottomBar(
                     onClickAddGratitude = {
-
+                        coroutineScope.launch {
+                            sheetState.show()
+                        }
+                        isSheetOpen = true
                     },
                     onClickHome = {
 
@@ -110,6 +128,20 @@ internal fun MainScreen(
             }
         }
     )
+    if (isSheetOpen) {
+        ModalBottomSheet(
+            onDismissRequest = {
+                isSheetOpen = false
+            },
+            sheetState = sheetState
+        ) {
+            BottomSheetContent(
+                onSaveGratitude = { gratitudeRecord ->
+
+                }
+            )
+        }
+    }
 }
 
 @Composable
