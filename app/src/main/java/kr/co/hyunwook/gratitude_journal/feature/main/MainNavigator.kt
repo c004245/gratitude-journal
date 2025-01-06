@@ -1,5 +1,6 @@
 package kr.co.hyunwook.gratitude_journal.feature.main
 
+import kr.co.hyunwook.gratitude_journal.core.navigation.Route
 import kr.co.hyunwook.gratitude_journal.feature.home.navigation.Home
 import kr.co.hyunwook.gratitude_journal.feature.main.onboarding.navigation.OnBoarding
 import kr.co.hyunwook.gratitude_journal.feature.main.splash.navigation.Splash
@@ -34,10 +35,24 @@ class MainNavigator(
         navController.navigate(Home, navOptions = navOptions)
     }
 
+    @Composable
+    fun isShowBottomBar(): Boolean {
+        val currentRoute = findRouteFromDestination(currentDestination?.route)
+        return currentRoute == Home
+    }
+
 
 }
 
 
+fun findRouteFromDestination(route: String?): Route? {
+    return when (route) {
+        Splash.route -> Splash
+        OnBoarding.route -> OnBoarding
+        Home.route -> Home
+        else -> null
+    }
+}
 @Composable
 internal fun rememberMainNavigator(
     navController: NavHostController = rememberNavController(),
