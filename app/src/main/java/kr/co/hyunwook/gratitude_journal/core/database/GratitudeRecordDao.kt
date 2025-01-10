@@ -1,7 +1,10 @@
 package kr.co.hyunwook.gratitude_journal.core.database
 
 import kotlinx.coroutines.flow.Flow
+import kr.co.hyunwook.gratitude_journal.core.database.entity.GratitudeRecord
 import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 
 @Dao
@@ -29,6 +32,9 @@ interface GratitudeRecordDao {
         )
     """)
     fun getConsecutiveDays(): Flow<Int>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun saveGratitudeRecord(recordDao: GratitudeRecord)
 }
 
 

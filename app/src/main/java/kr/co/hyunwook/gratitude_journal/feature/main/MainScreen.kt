@@ -59,6 +59,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHost
@@ -69,6 +70,7 @@ import androidx.navigation.navOptions
 @Composable
 internal fun MainScreen(
     navigator: MainNavigator = rememberMainNavigator(),
+    viewModel: MainViewModel = hiltViewModel()
 ) {
     val coroutineScope = rememberCoroutineScope()
     val sheetState = rememberModalBottomSheetState(
@@ -80,7 +82,15 @@ internal fun MainScreen(
     var selectedTab by remember { mutableStateOf(SelectedTab.HOME) }
 
     LaunchedEffect(Unit) {
-//        viewModel()
+        viewModel.saveDoneEvent.collect { isSuccess ->
+            if (isSuccess) {
+                coroutineScope.launch {
+                    sheetState.hide()
+                }
+                isSheetOpen = false
+            }
+        }
+
 
     }
 
@@ -148,7 +158,7 @@ internal fun MainScreen(
         ) {
             BottomSheetContent(
                 onSaveGratitude = { gratitudeRecord ->
-
+                    viewModel.saveGratitudeRecord(gratitudeRecord)
                 }
             )
         }

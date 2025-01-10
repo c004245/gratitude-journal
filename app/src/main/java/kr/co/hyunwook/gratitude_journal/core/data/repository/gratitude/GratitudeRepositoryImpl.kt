@@ -4,6 +4,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kr.co.hyunwook.gratitude_journal.core.database.GratitudeRecordDao
 import kr.co.hyunwook.gratitude_journal.core.database.TodayGratitudeSummary
+import kr.co.hyunwook.gratitude_journal.core.database.entity.GratitudeRecord
 import kr.co.hyunwook.gratitude_journal.core.datastore.datasource.GratitudePreferencesDataSource
 import javax.inject.Inject
 
@@ -31,6 +32,9 @@ class GratitudeRepositoryImpl @Inject constructor(
             )
         }
 
+    }
 
+    override suspend fun saveGratitudeRecord(gratitudeRecord: GratitudeRecord) {
+        gratitudeRecordDao.saveGratitudeRecord(gratitudeRecord)
     }
 }

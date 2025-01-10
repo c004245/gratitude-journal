@@ -8,11 +8,7 @@ data class GratitudeRecord(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val gratitudeMemo: String,
     val timeStamp: Long,
-    val gratitudeType: GratitudeType
+    val gratitudeType: String
 )
 
 
-enum class GratitudeType {
-    MY,
-    PARENT
-}

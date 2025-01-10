@@ -4,6 +4,7 @@ import kr.co.hyunwook.gratitude_journal.R
 import kr.co.hyunwook.gratitude_journal.core.database.entity.GratitudeRecord
 import kr.co.hyunwook.gratitude_journal.ui.theme.GratitudeTheme
 import kr.co.hyunwook.gratitude_journal.ui.theme.yellowFF
+import kr.co.hyunwook.gratitude_journal.util.getGratitudeEmojis
 import android.widget.Space
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -62,9 +63,11 @@ fun BottomSheetContent(onSaveGratitude: (GratitudeRecord) -> Unit) {
         Button(
             onClick = {
                 val record = GratitudeRecord(
-                    
+                    gratitudeMemo = "테스트 메모",
+                    timeStamp = System.currentTimeMillis(),
+                    gratitudeType = getGratitudeEmojis()
                 )
-                onSaveGratitude
+                onSaveGratitude(record)
 
             },
         ) {
@@ -77,3 +80,4 @@ fun BottomSheetContent(onSaveGratitude: (GratitudeRecord) -> Unit) {
         }
     }
 }
+
