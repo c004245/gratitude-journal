@@ -2,6 +2,7 @@ package kr.co.hyunwook.gratitude_journal.feature.main
 
 import kotlinx.coroutines.launch
 import kr.co.hyunwook.gratitude_journal.R
+import kr.co.hyunwook.gratitude_journal.core.database.TodayGratitudeSummary
 import kr.co.hyunwook.gratitude_journal.core.designsystem.theme.yellow50
 import kr.co.hyunwook.gratitude_journal.core.navigation.Route
 import kr.co.hyunwook.gratitude_journal.feature.add.BottomSheetContent
@@ -39,6 +40,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -81,6 +83,15 @@ internal fun MainScreen(
 
     var selectedTab by remember { mutableStateOf(SelectedTab.HOME) }
 
+    val currentRoute = navigator.navController.currentBackStackEntryFlow.collectAsState(null).value?.destination?.route
+
+    val todayGratitudeSummary = viewModel.todayGratitudeSummary.collectAsState().value
+
+    LaunchedEffect(currentRoute) {
+        if (currentRoute == Home.route) {
+            viewModel.getTodayGratitudeRecord()
+        }
+    }
     LaunchedEffect(Unit) {
         viewModel.saveDoneEvent.collect { isSuccess ->
             if (isSuccess) {
@@ -122,7 +133,8 @@ internal fun MainScreen(
                         }
                     )
                     homeNavGraph(
-                        paddingValues = paddingValues
+                        paddingValues = paddingValues,
+                        todayGratitudeSummary = todayGratitudeSummary
                     )
                 }
             }
@@ -130,6 +142,7 @@ internal fun MainScreen(
         bottomBar = {
             if (navigator.isShowBottomBar()) {
                 CustomBottomBar(
+                    todayGratitudeSummary = todayGratitudeSummary,
                     onClickAddGratitude = {
                         coroutineScope.launch {
                             sheetState.show()
@@ -167,6 +180,7 @@ internal fun MainScreen(
 
 @Composable
 fun CustomBottomBar(
+    todayGratitudeSummary: TodayGratitudeSummary?,
     onClickAddGratitude: () -> Unit,
     onClickHome: () -> Unit,
     onClickTotal: () -> Unit,
@@ -189,7 +203,8 @@ fun CustomBottomBar(
         )
         BottomAddGratitudeButton(
             modifier = Modifier.align(Alignment.TopCenter),
-            onClickAddGratitude = onClickAddGratitude
+            onClickAddGratitude = onClickAddGratitude,
+            todayGratitudeSummary = todayGratitudeSummary
         )
     }
 
@@ -317,9 +332,13 @@ private fun BottomBarItem(
     }
 
 @Composable
-private fun BottomAddGratitudeButton(modifier: Modifier = Modifier, onClickAddGratitude: () -> Unit) {
+private fun BottomAddGratitudeButton(modifier: Modifier = Modifier, onClickAddGratitude: () -> Unit, todayGratitudeSummary: TodayGratitudeSummary?) {
     Image(
-        painter = painterResource(id = R.drawable.ic_today_done_gratitude),
+        painter = if (todayGratitudeSummary?.hasWrittenToday == true) {
+            painterResource(id = R.drawable.ic_today_done_gratitude)
+        } else {
+            painterResource(id = R.drawable.ic_today_not_gratitude)
+        },
         contentDescription = "Center Button",
         contentScale = ContentScale.Crop,
         modifier = modifier

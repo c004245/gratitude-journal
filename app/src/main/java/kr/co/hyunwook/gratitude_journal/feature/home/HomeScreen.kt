@@ -40,16 +40,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 @Composable
 fun HomeScreen(
     paddingValues: PaddingValues,
+    todayGratitudeSummary: TodayGratitudeSummary?,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
-
-
-    val todayGratitudeSummary by viewModel.todayGratitudeSummary.collectAsState()
-
-
-    LaunchedEffect(Unit) {
-        viewModel.getTodayGratitudeRecord()
-    }
 
     Box(
         modifier = Modifier.fillMaxSize()

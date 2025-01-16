@@ -19,29 +19,17 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(
-    private val getTodayGratitudeRecordUseCase: GetTodayGratitudeRecordUseCase
-): ViewModel() {
+class HomeViewModel @Inject constructor(): ViewModel() {
 
     private val _deerMessage = MutableStateFlow("디어에 메세지를 가져오고있어요.")
     val deerMessage: StateFlow<String> = _deerMessage
 
-    private val _todayGratitudeSummary = MutableStateFlow<TodayGratitudeSummary?>(null)
-    val todayGratitudeSummary: StateFlow<TodayGratitudeSummary?> get() = _todayGratitudeSummary
+
     init {
         fetchDeerMessage()
     }
 
-    fun getTodayGratitudeRecord() {
-        viewModelScope.launch {
-            getTodayGratitudeRecordUseCase().collect { record ->
-                Log.d("HWO", "record data -> ${record.hasWrittenToday}")
-                Log.d("HWO", "record data22 -> ${record.todayGratitudeMemo}")
-                Log.d("HWO", "record data33 -> ${record.consecutiveDays}")
-                _todayGratitudeSummary.value = record
-            }
-        }
-    }
+
 
     private fun fetchDeerMessage() {
         viewModelScope.launch {
