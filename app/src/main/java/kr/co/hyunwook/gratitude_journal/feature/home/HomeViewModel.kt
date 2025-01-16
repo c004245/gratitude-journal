@@ -9,6 +9,9 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
+import kr.co.hyunwook.gratitude_journal.core.database.GratitudeRecordDao
+import kr.co.hyunwook.gratitude_journal.core.database.TodayGratitudeSummary
+import kr.co.hyunwook.gratitude_journal.core.database.entity.GratitudeRecord
 import kr.co.hyunwook.gratitude_journal.core.domain.usecase.GetTodayGratitudeRecordUseCase
 import android.util.Log
 import javax.inject.Inject
@@ -23,6 +26,8 @@ class HomeViewModel @Inject constructor(
     private val _deerMessage = MutableStateFlow("디어에 메세지를 가져오고있어요.")
     val deerMessage: StateFlow<String> = _deerMessage
 
+    private val _todayGratitudeSummary = MutableStateFlow<TodayGratitudeSummary?>(null)
+    val todayGratitudeSummary: StateFlow<TodayGratitudeSummary?> get() = _todayGratitudeSummary
     init {
         fetchDeerMessage()
     }
@@ -32,7 +37,8 @@ class HomeViewModel @Inject constructor(
             getTodayGratitudeRecordUseCase().collect { record ->
                 Log.d("HWO", "record data -> ${record.hasWrittenToday}")
                 Log.d("HWO", "record data22 -> ${record.todayGratitudeMemo}")
-                Log.d("HWO", "record data33 -> ${record.todayGratitudeMemo}")
+                Log.d("HWO", "record data33 -> ${record.consecutiveDays}")
+                _todayGratitudeSummary.value = record
             }
         }
     }

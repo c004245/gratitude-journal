@@ -18,20 +18,26 @@ interface GratitudeRecordDao {
     @Query("SELECT COUNT(*) > 0 FROM GratitudeRecord WHERE DATE(timeStamp / 1000, 'unixepoch') = DATE('now')")
     fun hasWrittenToday(): Flow<Boolean>
 
-    //연속 작성 일 수 가지고 오기
     @Query("""
-        SELECT COUNT(*) FROM (
-            WITH RECURSIVE DateStreak(date) AS (
-                SELECT DATE('now')
-                UNION ALL
-                SELECT DATE(date, '-1 day')
-                FROM DateStreak
-                WHERE DATE(date, '-1 day') IN (SELECT DATE(timestamp / 1000, 'unixepoch') FROM GratitudeRecord)
-            )
-            SELECT * FROM DateStreak
-        )
-    """)
+    SELECT 
+        CASE WHEN EXISTS (
+            SELECT 1 FROM GratitudeRecord
+        ) THEN 
+            (SELECT COUNT(*) FROM (
+                WITH RECURSIVE DateStreak(date) AS (
+                    SELECT DATE('now')
+                    UNION ALL
+                    SELECT DATE(date, '-1 day')
+                    FROM DateStreak
+                    WHERE DATE(date, '-1 day') IN (SELECT DATE(timestamp / 1000, 'unixepoch') FROM GratitudeRecord)
+                )
+                SELECT * FROM DateStreak
+            ))
+        ELSE 0
+    END AS consecutiveDays
+""")
     fun getConsecutiveDays(): Flow<Int>
+
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveGratitudeRecord(recordDao: GratitudeRecord)
