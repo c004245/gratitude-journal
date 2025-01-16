@@ -9,12 +9,10 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 
 fun NavGraphBuilder.homeNavGraph(
-    paddingValues: PaddingValues,
     todayGratitudeSummary: TodayGratitudeSummary?
 ) {
     composable<Home> {
         HomeScreen(
-            paddingValues = paddingValues,
             todayGratitudeSummary = todayGratitudeSummary
         )
 

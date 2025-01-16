@@ -39,7 +39,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 
 @Composable
 fun HomeScreen(
-    paddingValues: PaddingValues,
     todayGratitudeSummary: TodayGratitudeSummary?,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
@@ -66,7 +65,8 @@ fun HomeScreen(
                     horizontalArrangement = Arrangement.End
                 ) {
                     MyGratitudeWidget(
-                        viewModel
+                        todayGratitudeSummary = todayGratitudeSummary
+
                     )
                 }
             }
@@ -115,41 +115,51 @@ fun RemoteConfigDeerMessage(viewModel: HomeViewModel) {
 
 
 @Composable
-fun MyGratitudeWidget(viewModel: HomeViewModel) {
+fun MyGratitudeWidget(todayGratitudeSummary: TodayGratitudeSummary?) {
     Column(
         modifier = Modifier.fillMaxWidth() // 우측 상단 정렬
     ) {
         Text(
             modifier = Modifier.align(Alignment.End),
-            text = stringResource(R.string.text_home_deer_send_title),
+            text = stringResource(R.string.text_home_my_send_title),
             style = GratitudeTheme.typography.regular,
             color = yellowFF,
             fontSize = 18.sp
         )
         Spacer(modifier = Modifier.height(10.dp))
-        MyGratitudeMessage(viewModel)
+        MyGratitudeMessage(todayGratitudeSummary)
     }
 }
 
 @Composable
-fun MyGratitudeMessage(viewModel: HomeViewModel) {
+fun MyGratitudeMessage(todayGratitudeSummary: TodayGratitudeSummary?) {
+    val hasWrittenToday = todayGratitudeSummary?.hasWrittenToday == true
+    val backgroundColor = if (hasWrittenToday) yellowFF else black46
+    val textColor = if (hasWrittenToday) black24 else Color.White
+    val messageText = todayGratitudeSummary?.todayGratitudeMemo
+        ?: stringResource(R.string.text_home_my_send_message_default)
 
     Box(
-        modifier = Modifier.fillMaxWidth().padding(start = 40.dp)
-            .background(black46, shape = RoundedCornerShape(15.dp)).padding(15.dp)
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 40.dp)
+            .background(backgroundColor, shape = RoundedCornerShape(15.dp))
+            .padding(15.dp)
     ) {
-
         Text(
-            text = stringResource(R.string.text_home_my_send_message_default),
+            text = messageText,
             style = GratitudeTheme.typography.regular,
             fontSize = 14.sp,
-            color = Color.White
+            color = textColor
         )
     }
 }
 
 @Composable
-fun TodayGratitdeWidget(modifier: Modifier = Modifier, todayGratitudeSummary: TodayGratitudeSummary?) {
+fun TodayGratitdeWidget(
+    modifier: Modifier = Modifier,
+    todayGratitudeSummary: TodayGratitudeSummary?
+) {
     Box(
         modifier = modifier
     ) {
@@ -158,7 +168,7 @@ fun TodayGratitdeWidget(modifier: Modifier = Modifier, todayGratitudeSummary: To
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text  = "${todayGratitudeSummary?.consecutiveDays}일 연속",
+                text = "${todayGratitudeSummary?.consecutiveDays}일 연속",
                 style = GratitudeTheme.typography.regular,
                 color = yellowFF,
                 fontSize = 24.sp,

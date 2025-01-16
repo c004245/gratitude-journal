@@ -83,7 +83,8 @@ internal fun MainScreen(
 
     var selectedTab by remember { mutableStateOf(SelectedTab.HOME) }
 
-    val currentRoute = navigator.navController.currentBackStackEntryFlow.collectAsState(null).value?.destination?.route
+    val currentRoute =
+        navigator.navController.currentBackStackEntryFlow.collectAsState(null).value?.destination?.route
 
     val todayGratitudeSummary = viewModel.todayGratitudeSummary.collectAsState().value
 
@@ -133,7 +134,6 @@ internal fun MainScreen(
                         }
                     )
                     homeNavGraph(
-                        paddingValues = paddingValues,
                         todayGratitudeSummary = todayGratitudeSummary
                     )
                 }
@@ -276,63 +276,72 @@ private fun BottomBarItem(
 }
 
 
-    @Composable
-    private fun TopDecorativeLine(modifier: Modifier = Modifier) {
-        Box(
-            modifier = modifier
-                .fillMaxWidth()
-                .height(6.dp)
-                .drawBehind {
-                    val gapWidth = 90.dp.toPx()
-                    val lineHeight = size.height
-                    val lineWidth = (size.width - gapWidth) / 2
-                    val cornerRadius = lineHeight / 2
+@Composable
+private fun TopDecorativeLine(modifier: Modifier = Modifier) {
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .height(6.dp)
+            .drawBehind {
+                val gapWidth = 90.dp.toPx()
+                val lineHeight = size.height
+                val lineWidth = (size.width - gapWidth) / 2
+                val cornerRadius = lineHeight / 2
 
-                    val path = Path().apply {
-                        // 왼쪽 라인
-                        moveTo(0f, lineHeight / 2)
-                        arcTo(
-                            rect = Rect(0f, 0f, lineHeight, lineHeight),
-                            startAngleDegrees = 90f,
-                            sweepAngleDegrees = 180f,
-                            forceMoveTo = false
-                        )
-                        lineTo(lineWidth, 0f)
-                        lineTo(lineWidth, lineHeight)
-                        arcTo(
-                            rect = Rect(lineWidth - lineHeight, 0f, lineWidth, lineHeight),
-                            startAngleDegrees = 0f,
-                            sweepAngleDegrees = -180f,
-                            forceMoveTo = false
-                        )
-                        close()
+                val path = Path().apply {
+                    // 왼쪽 라인
+                    moveTo(0f, lineHeight / 2)
+                    arcTo(
+                        rect = Rect(0f, 0f, lineHeight, lineHeight),
+                        startAngleDegrees = 90f,
+                        sweepAngleDegrees = 180f,
+                        forceMoveTo = false
+                    )
+                    lineTo(lineWidth, 0f)
+                    lineTo(lineWidth, lineHeight)
+                    arcTo(
+                        rect = Rect(lineWidth - lineHeight, 0f, lineWidth, lineHeight),
+                        startAngleDegrees = 0f,
+                        sweepAngleDegrees = -180f,
+                        forceMoveTo = false
+                    )
+                    close()
 
-                        // 오른쪽 라인
-                        moveTo(size.width - lineWidth, lineHeight / 2)
-                        arcTo(
-                            rect = Rect(size.width - lineHeight, 0f, size.width, lineHeight),
-                            startAngleDegrees = 90f,
-                            sweepAngleDegrees = 180f,
-                            forceMoveTo = false
-                        )
-                        lineTo(size.width - lineWidth, 0f)
-                        lineTo(size.width - lineWidth, lineHeight)
-                        arcTo(
-                            rect = Rect(size.width - lineWidth, 0f, size.width - lineWidth + lineHeight, lineHeight),
-                            startAngleDegrees = 0f,
-                            sweepAngleDegrees = -180f,
-                            forceMoveTo = false
-                        )
-                        close()
-                    }
-
-                    drawPath(path, color = yellow50)
+                    // 오른쪽 라인
+                    moveTo(size.width - lineWidth, lineHeight / 2)
+                    arcTo(
+                        rect = Rect(size.width - lineHeight, 0f, size.width, lineHeight),
+                        startAngleDegrees = 90f,
+                        sweepAngleDegrees = 180f,
+                        forceMoveTo = false
+                    )
+                    lineTo(size.width - lineWidth, 0f)
+                    lineTo(size.width - lineWidth, lineHeight)
+                    arcTo(
+                        rect = Rect(
+                            size.width - lineWidth,
+                            0f,
+                            size.width - lineWidth + lineHeight,
+                            lineHeight
+                        ),
+                        startAngleDegrees = 0f,
+                        sweepAngleDegrees = -180f,
+                        forceMoveTo = false
+                    )
+                    close()
                 }
-        )
-    }
+
+                drawPath(path, color = yellow50)
+            }
+    )
+}
 
 @Composable
-private fun BottomAddGratitudeButton(modifier: Modifier = Modifier, onClickAddGratitude: () -> Unit, todayGratitudeSummary: TodayGratitudeSummary?) {
+private fun BottomAddGratitudeButton(
+    modifier: Modifier = Modifier,
+    onClickAddGratitude: () -> Unit,
+    todayGratitudeSummary: TodayGratitudeSummary?
+) {
     Image(
         painter = if (todayGratitudeSummary?.hasWrittenToday == true) {
             painterResource(id = R.drawable.ic_today_done_gratitude)
@@ -344,7 +353,12 @@ private fun BottomAddGratitudeButton(modifier: Modifier = Modifier, onClickAddGr
         modifier = modifier
             .offset(y = -30.dp)
             .size(75.dp)
-            .clickable { onClickAddGratitude() }
+            .clickable {
+                if (todayGratitudeSummary?.hasWrittenToday == false) {
+                    onClickAddGratitude()
+                }
+            }
+
     )
 }
 
