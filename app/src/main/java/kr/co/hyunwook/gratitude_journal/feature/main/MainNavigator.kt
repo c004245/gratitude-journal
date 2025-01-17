@@ -48,10 +48,7 @@ class MainNavigator(
         val currentRoute = findRouteFromDestination(currentDestination?.route)
         return currentRoute == Home || currentRoute == Total
     }
-
-
 }
-
 
 fun findRouteFromDestination(route: String?): Route? {
     return when (route) {
@@ -62,6 +59,7 @@ fun findRouteFromDestination(route: String?): Route? {
         else -> null
     }
 }
+
 @Composable
 internal fun rememberMainNavigator(
     navController: NavHostController = rememberNavController(),
