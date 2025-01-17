@@ -11,6 +11,8 @@ import kr.co.hyunwook.gratitude_journal.feature.home.navigation.homeNavGraph
 import kr.co.hyunwook.gratitude_journal.feature.main.onboarding.navigation.OnBoarding
 import kr.co.hyunwook.gratitude_journal.feature.main.onboarding.navigation.onboardingNavGraph
 import kr.co.hyunwook.gratitude_journal.feature.main.splash.navigation.splashNavGraph
+import kr.co.hyunwook.gratitude_journal.feature.total.navigation.Total
+import kr.co.hyunwook.gratitude_journal.feature.total.navigation.totalNavGraph
 import kr.co.hyunwook.gratitude_journal.ui.theme.GratitudeTheme
 import kr.co.hyunwook.gratitude_journal.ui.theme.black24
 import kr.co.hyunwook.gratitude_journal.ui.theme.yellowFF
@@ -136,6 +138,7 @@ internal fun MainScreen(
                     homeNavGraph(
                         todayGratitudeSummary = todayGratitudeSummary
                     )
+                    totalNavGraph()
                 }
             }
         },
@@ -151,10 +154,11 @@ internal fun MainScreen(
                     },
                     onClickHome = {
                         selectedTab = SelectedTab.HOME
+                        navigate(navigator, Home)
                     },
                     onClickTotal = {
                         selectedTab = SelectedTab.TOTAL
-
+                        navigate(navigator, Total)
                     },
                     selectedTab = selectedTab
                 )
@@ -377,6 +381,9 @@ fun navigate(navigator: MainNavigator, route: Route) {
 
         Home -> {
             navigator.navigateToHome(navOptions)
+        }
+        Total -> {
+            navigator.navigateToTotal(navOptions)
         }
 
     }

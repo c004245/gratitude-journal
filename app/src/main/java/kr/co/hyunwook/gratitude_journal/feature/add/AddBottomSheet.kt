@@ -3,9 +3,11 @@ package kr.co.hyunwook.gratitude_journal.feature.add
 import kr.co.hyunwook.gratitude_journal.R
 import kr.co.hyunwook.gratitude_journal.core.database.entity.GratitudeRecord
 import kr.co.hyunwook.gratitude_journal.ui.theme.GratitudeTheme
+import kr.co.hyunwook.gratitude_journal.ui.theme.black24
 import kr.co.hyunwook.gratitude_journal.ui.theme.yellowFF
 import kr.co.hyunwook.gratitude_journal.util.getGratitudeEmojis
 import android.widget.Space
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -34,49 +36,59 @@ fun BottomSheetContent(onSaveGratitude: (GratitudeRecord) -> Unit) {
 
     Column(
         modifier = Modifier.fillMaxWidth().height(sheetHeight).padding(horizontal = 16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = androidx.compose.foundation.layout.Arrangement.SpaceBetween
     ) {
 
         Box(
             modifier = Modifier
-                .fillMaxWidth(),
-            contentAlignment = Alignment.Center 
-        ) {
-            Text(
-                text = stringResource(id = R.string.text_add_bottom_title),
-                style = GratitudeTheme.typography.regular,
-                fontSize = 18.sp,
-                color = yellowFF
-            )
-            Icon(
-                painter = painterResource(id = R.drawable.ic_close),
-                tint = yellowFF,
-                contentDescription = null,
-                modifier = Modifier
-                    .align(Alignment.CenterEnd)
-                    .clickable {
-                        // 클릭 이벤트
-                    }
-            )
-        }
+                .fillMaxWidth().height(580.dp)
+                .padding(bottom = 16.dp)
 
-        Button(
-            onClick = {
-                val record = GratitudeRecord(
-                    gratitudeMemo = "테스트 메모",
-                    timeStamp = System.currentTimeMillis(),
-                    gratitudeType = getGratitudeEmojis()
+        ) {
+            Box(
+                modifier = Modifier.fillMaxWidth().align(Alignment.TopCenter),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = stringResource(id = R.string.text_add_bottom_title),
+                    style = GratitudeTheme.typography.regular,
+                    fontSize = 18.sp,
+                    color = yellowFF
                 )
-                onSaveGratitude(record)
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_close),
+                    tint = yellowFF,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .align(Alignment.CenterEnd)
+                        .clickable {
+                            // 클릭 이벤트
+                        }
+                )
+            }
 
-            },
-        ) {
-            Text(
-                text = stringResource(id = R.string.text_splash),
-                style = GratitudeTheme.typography.regular,
-                color = Color.White,
-                fontSize = 14.sp
-            )
+
+            Button(
+                modifier = Modifier.align(Alignment.BottomCenter).fillMaxWidth().height(47.dp),
+                shape = androidx.compose.foundation.shape.RoundedCornerShape(13.dp),
+                onClick = {
+                    val record = GratitudeRecord(
+                        gratitudeMemo = "테스트 메모",
+                        timeStamp = System.currentTimeMillis(),
+                        gratitudeType = getGratitudeEmojis()
+                    )
+                    onSaveGratitude(record)
+
+                },
+            ) {
+                Text(
+                    text = stringResource(id = R.string.text_splash),
+                    style = GratitudeTheme.typography.regular,
+                    color = black24,
+                    fontSize = 15.sp
+                )
+            }
         }
     }
 }
