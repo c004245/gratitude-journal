@@ -41,6 +41,16 @@ interface GratitudeRecordDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveGratitudeRecord(recordDao: GratitudeRecord)
+
+    //해당 연도에 데이터가 있는 달 리스트 출력
+    @Query("""
+        SELECT strftime('%m', datetime(timeStamp / 1000, 'unixepoch')) AS month 
+        FROM GratitudeRecord 
+        WHERE strftime('%Y', datetime(timeStamp / 1000, 'unixepoch')) = :year
+        GROUP BY month
+        ORDER BY month ASC
+    """)
+    fun getYearTotalGratitude(year: String): Flow<List<Int>>
 }
 
 

@@ -37,4 +37,8 @@ class GratitudeRepositoryImpl @Inject constructor(
     override suspend fun saveGratitudeRecord(gratitudeRecord: GratitudeRecord) {
         gratitudeRecordDao.saveGratitudeRecord(gratitudeRecord)
     }
+
+    override suspend fun getYearTotalGratitude(year: String): Flow<List<Int>>  =
+        gratitudeRecordDao.getYearTotalGratitude(year)
+
 }

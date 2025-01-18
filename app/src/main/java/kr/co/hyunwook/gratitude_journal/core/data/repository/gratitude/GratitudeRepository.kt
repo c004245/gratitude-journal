@@ -12,4 +12,6 @@ interface GratitudeRepository {
     suspend fun getTodayGratitudeSummary(): Flow<TodayGratitudeSummary>
 
     suspend fun saveGratitudeRecord(gratitudeRecord: GratitudeRecord)
+
+    suspend fun getYearTotalGratitude(year: String): Flow<List<Int>>
 }
