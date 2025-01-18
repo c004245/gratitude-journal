@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">디어 데이즈</string>
     <string name="text_next">다음</string>
-    <string name="text_start">감사일기 쓰러가기!</string>
+    <string name="text_start">시작하기</string>
     <string name="text_splash">"소중한 하루에 감사하다"</string>
     <string name="text_send">"보내기"</string>
     <string name="text_splash_bottom">"Deer Days"</string>

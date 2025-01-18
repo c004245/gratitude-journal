@@ -4,6 +4,9 @@ import kotlinx.coroutines.launch
 import kr.co.hyunwook.gratitude_journal.R
 import kr.co.hyunwook.gratitude_journal.core.designsystem.theme.purpleC4
 import kr.co.hyunwook.gratitude_journal.ui.theme.GratitudeTheme
+import kr.co.hyunwook.gratitude_journal.ui.theme.black24
+import kr.co.hyunwook.gratitude_journal.ui.theme.yellowFF
+import kr.co.hyunwook.gratitude_journal.ui.theme.yellowFFOpacity30
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -48,19 +51,19 @@ fun OnBoardingScreen(
 
     val pages = listOf(
         OnBoardingData(
-            imageRes = R.drawable.ic_splash,
-            title = "혼자가 아니에요!",
-            description = "저도 매일 감사일기를 적고 있어요.\n저와 함께 매일매일 적어봐요."
+            imageRes = R.drawable.ic_onboarding_1,
+            title = "혼자 감사일기를 적는게 아니에요!",
+            description = "저와 함께 감사 일기를 써 보아요.\n저도 매일 감사했던 순간들을\n여러분들께 말씀드릴게요."
         ),
         OnBoardingData(
-            imageRes = R.drawable.ic_splash,
-            title = "매일 쉽게 감사일기를 적을 수 있어요!",
-            description = "매일 감사일기를 쌓다보면\n내가 어떤 감사일기를 적었는지\n달별로 확인이 가능해요."
+            imageRes = R.drawable.ic_onboarding_2,
+            title = "간단하게 감사 일기를 적을 수 있어요!",
+            description = "매일 감사 일기를 쓰다보면,\n내가 어떤 감사를 기록했는지\n달별로 확인할 수 있어요!"
         ),
         OnBoardingData(
-            imageRes = R.drawable.ic_splash,
+            imageRes = R.drawable.ic_onboarding_3,
             title = "감사는 삶을 변화시키는 첫걸음이에요!",
-            description = "개발자의 감사일기도 함께 공유하며 영감을 받아보세요."
+            description = "감사 일기를 쓰며 마음에 평화를 가지고,\n삶에 긍정을 조금씩 더해 보세요!"
         )
     )
 
@@ -74,7 +77,7 @@ fun OnBoardingScreen(
     }
 
     Box(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize().background(black24)
     ) {
         Column(
             modifier = Modifier.fillMaxSize().padding(16.dp),
@@ -102,8 +105,6 @@ fun OnBoardingScreen(
                         pagerState.animateScrollToPage(pagerState.currentPage + 1)
                     } else {
                         onBoardingViewModel.showOnBoardingDone()
-
-//                        navigateToHome()
                     }
                 }
 
@@ -119,7 +120,7 @@ fun OnBoardingScreen(
                 ),
             shape = RoundedCornerShape(8.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = purpleC4
+                containerColor = yellowFF
             )
         ) {
             Text(
@@ -129,8 +130,8 @@ fun OnBoardingScreen(
                     stringResource(id = R.string.text_start)
                 },
                 style = GratitudeTheme.typography.regular,
-                color = Color.White,
-                fontSize = 14.sp
+                color = black24,
+                fontSize = 15.sp
             )
         }
     }
@@ -149,17 +150,20 @@ fun OnBoardingPage(data: OnBoardingData) {
             contentDescription = null,
             modifier = Modifier.wrapContentWidth()
         )
+        Spacer(Modifier.height(40.dp))
         Text(
             text = data.title,
             style = GratitudeTheme.typography.regular,
+            color = Color.White,
             fontSize = 24.sp,
             textAlign = TextAlign.Center
         )
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(16.dp))
         Text(
             text = data.description,
             style = GratitudeTheme.typography.regular,
             fontSize = 16.sp,
+            color = Color.White,
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(horizontal = 16.dp)
         )
@@ -170,8 +174,8 @@ fun OnBoardingPage(data: OnBoardingData) {
 fun CircleIndicator(
     currentPage: Int,
     pageCount: Int,
-    activeColor: Color = Color.Blue,
-    inActiveColor: Color = Color.Red,
+    activeColor: Color = yellowFF,
+    inActiveColor: Color = yellowFFOpacity30,
     indicatorSize: Dp = 8.dp,
     spacing: Dp = 8.dp
 ) {

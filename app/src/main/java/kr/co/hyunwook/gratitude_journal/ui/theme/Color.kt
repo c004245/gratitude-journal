@@ -12,3 +12,4 @@ val Pink40 = Color(0xFF7D5260)
 
 val black24 = Color(0xFF242424)
 val yellowFF = Color(0xFFFFED77)
+val yellowFFOpacity30 = Color(0x4CFFED77)
