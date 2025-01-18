@@ -44,7 +44,7 @@ fun HomeScreen(
 ) {
 
     Box(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize().background(black24)
     ) {
         Column(
             modifier = Modifier.fillMaxSize(),

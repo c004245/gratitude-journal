@@ -168,6 +168,7 @@ internal fun MainScreen(
     )
     if (isSheetOpen) {
         ModalBottomSheet(
+            containerColor = black24,
             onDismissRequest = {
                 isSheetOpen = false
             },
