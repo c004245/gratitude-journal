@@ -54,6 +54,8 @@ fun BottomSheetContent(onSaveGratitude: (GratitudeRecord) -> Unit) {
 
     var gratitudeText by remember { mutableStateOf("") }
 
+    val saveButtonBackground = if (gratitudeText.isEmpty()) yellowFFOpacity30 else yellowFF
+
     Column(
         modifier = Modifier.fillMaxWidth().height(sheetHeight).padding(horizontal = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -78,9 +80,8 @@ fun BottomSheetContent(onSaveGratitude: (GratitudeRecord) -> Unit) {
                 contentDescription = null,
                 modifier = Modifier.padding(bottom = 48.dp)
             )
-
-
-            SaveGratitudeButton(onSaveGratitude)
+            SaveGratitudeButton(onSaveGratitude,
+                buttonBackgroundColor = saveButtonBackground)
         }
 
 
@@ -117,48 +118,42 @@ private fun TopSection() {
 
 @Composable
 fun GratitudeTextField(gratitudeText: String, onTextChange: (String) -> Unit) {
-    var isFocused by remember { mutableStateOf(false) } // 포커스 상태
+    val backgroundColor = if (gratitudeText.isEmpty()) black46 else yellowFF
+    val textColor = if (gratitudeText.isEmpty()) Color.White else black24
 
     Box(
         modifier = Modifier.fillMaxWidth().padding(top = 20.dp, start = 4.dp, end = 4.dp)
-            .background(black46, shape = RoundedCornerShape(15.dp)).padding(15.dp)
+            .background(backgroundColor, shape = RoundedCornerShape(15.dp)).padding(15.dp)
     ) {
-
-            // 텍스트 필드
         BasicTextField(
             value = gratitudeText,
             onValueChange = onTextChange,
             modifier = Modifier
                 .fillMaxWidth()
-                .wrapContentHeight()
-
-                .onFocusChanged { focusState ->
-                    isFocused = focusState.isFocused
-                },
+                .wrapContentHeight(),
             textStyle = TextStyle(
-                color = Color.White,
+                color = textColor,
                 fontSize = 14.sp,
             ),
             cursorBrush = SolidColor(Color.White),
             decorationBox = { innerTextField ->
                 Box(
                     modifier = Modifier.wrapContentHeight().fillMaxWidth().padding(0.dp),
-                    contentAlignment = Alignment.TopStart // 텍스트 위치를 좌측 상단에 고정
+                    contentAlignment = Alignment.TopStart
                 ) {
-                    if (gratitudeText.isEmpty() && !isFocused) {
-                        // 힌트 표시
+                    if (gratitudeText.isEmpty()) {
                         Text(
                             text = "말풍선을 클릭해서 내용을 작성해요.",
                             color = Color.White,
                             style = GratitudeTheme.typography.regular,
-                            fontSize = 14.sp // 힌트의 글꼴 크기
+                            fontSize = 14.sp
                         )
                     }
                     Box(
-                        modifier = Modifier.padding(15.dp) // 텍스트 입력 필드에도 동일한 패딩 추가
+                        modifier = Modifier.padding(15.dp)
                     ) {
-                        innerTextField() // 실제 입력 필드
-                    } // 실제 입력 필드
+                        innerTextField()
+                    }
                 }
             }
         )
@@ -166,7 +161,8 @@ fun GratitudeTextField(gratitudeText: String, onTextChange: (String) -> Unit) {
 }
 
 @Composable
-fun SaveGratitudeButton(onSaveGratitude: (GratitudeRecord) -> Unit) {
+fun SaveGratitudeButton(onSaveGratitude: (GratitudeRecord) -> Unit,
+                        buttonBackgroundColor: Color) {
     Button(
         {
             val record = GratitudeRecord(
@@ -178,9 +174,9 @@ fun SaveGratitudeButton(onSaveGratitude: (GratitudeRecord) -> Unit) {
 
         },
         Modifier.fillMaxWidth().height(47.dp),
-        shape = androidx.compose.foundation.shape.RoundedCornerShape(13.dp),
+        shape = RoundedCornerShape(13.dp),
         colors = ButtonDefaults.buttonColors(
-            containerColor = yellowFFOpacity30,
+            containerColor = buttonBackgroundColor,
             contentColor = black24,
         ),
     ) {
