@@ -2,6 +2,18 @@ package kr.co.hyunwook.gratitude_journal.feature.total
 
 import kr.co.hyunwook.gratitude_journal.R
 import kr.co.hyunwook.gratitude_journal.ui.theme.GratitudeTheme
+import kr.co.hyunwook.gratitude_journal.ui.theme.blue8A
+import kr.co.hyunwook.gratitude_journal.ui.theme.blueA3
+import kr.co.hyunwook.gratitude_journal.ui.theme.blueA7
+import kr.co.hyunwook.gratitude_journal.ui.theme.grayBB
+import kr.co.hyunwook.gratitude_journal.ui.theme.green97
+import kr.co.hyunwook.gratitude_journal.ui.theme.greenA1
+import kr.co.hyunwook.gratitude_journal.ui.theme.orangeEE
+import kr.co.hyunwook.gratitude_journal.ui.theme.orangeF0
+import kr.co.hyunwook.gratitude_journal.ui.theme.pinkFF
+import kr.co.hyunwook.gratitude_journal.ui.theme.purpleA1
+import kr.co.hyunwook.gratitude_journal.ui.theme.redDD
+import kr.co.hyunwook.gratitude_journal.ui.theme.yellowF8
 import kr.co.hyunwook.gratitude_journal.ui.theme.yellowFF
 import java.util.Calendar.YEAR
 import java.util.Calendar.getInstance
@@ -13,12 +25,15 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -129,26 +144,70 @@ fun TotalMonthly(
 
 @Composable
 fun TotalGridView() {
-    val itemCount = 12
-
+    val monthlyItems = listOf(
+        TotalGridItem(1, purpleA1, R.drawable.ic_done_gratitude),
+        TotalGridItem(2, greenA1, R.drawable.ic_done_gratitude),
+        TotalGridItem(3, green97, R.drawable.ic_done_gratitude),
+        TotalGridItem(4, pinkFF, R.drawable.ic_done_gratitude),
+        TotalGridItem(5, orangeF0, R.drawable.ic_done_gratitude),
+        TotalGridItem(6, blueA3, R.drawable.ic_done_gratitude),
+        TotalGridItem(7, yellowF8, R.drawable.ic_done_gratitude),
+        TotalGridItem(8, blueA7, R.drawable.ic_done_gratitude),
+        TotalGridItem(9, blue8A, R.drawable.ic_done_gratitude),
+        TotalGridItem(10, orangeEE, R.drawable.ic_done_gratitude),
+        TotalGridItem(11, grayBB, R.drawable.ic_done_gratitude),
+        TotalGridItem(12, redDD, R.drawable.ic_done_gratitude),
+    )
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         contentPadding = PaddingValues(16.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        items(itemCount) { index ->
+        items(monthlyItems) { item ->
             Box(
                 modifier = Modifier.aspectRatio(1f).clip(RoundedCornerShape(15.dp))
-                    .background(Color.Gray)
+                    .background(item.backgroundColor)
                     .clickable {
 
                     },
                 contentAlignment = Alignment.Center
             ) {
+                Box(
+                    modifier = Modifier.align(Alignment.TopStart)
+                        .padding(16.dp)
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = item.month.toString(),
+                            style = GratitudeTheme.typography.regular,
+                            fontSize = 24.sp,
+                            color = Color.White
+                        )
+                        Spacer(Modifier.width(2.dp))
+                        Text(
+                            text = "월",
+                            style = GratitudeTheme.typography.regular,
+                            fontSize = 16.sp,
+                            color = Color.White
+                        )
+                    }
+                }
+                Box(
+                    modifier = Modifier.align(Alignment.BottomEnd)
+                        .padding(0.dp)
+                ) {
+                    Image(
+                        painter = painterResource(item.backgroundIcon),
+                        contentDescription = null
 
+                    )
+                }
             }
         }
     }
-
 }
+
+data class TotalGridItem(val month: Int, val backgroundColor: Color, val backgroundIcon: Int)
