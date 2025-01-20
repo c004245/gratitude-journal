@@ -66,7 +66,6 @@ fun HomeScreen(
                 ) {
                     MyGratitudeWidget(
                         todayGratitudeSummary = todayGratitudeSummary
-
                     )
                 }
             }

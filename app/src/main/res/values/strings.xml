@@ -11,4 +11,5 @@
     <string name="text_home_deer_send_title">"디어가 보내는 오늘의 감사"</string>
     <string name="text_home_my_send_title">"내가 보내는 오늘의 감사"</string>
     <string name="text_home_my_send_message_default">"아래 감사 버튼을 눌러\n오늘의 감사일기를 작성해봐요!"</string>
+    <string name="text_done_gratitude">오늘의 감사 작성이 완료되었어요.</string>
 </resources>

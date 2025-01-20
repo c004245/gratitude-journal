@@ -95,18 +95,6 @@ internal fun MainScreen(
             viewModel.getTodayGratitudeRecord()
         }
     }
-    LaunchedEffect(Unit) {
-        viewModel.saveDoneEvent.collect { isSuccess ->
-            if (isSuccess) {
-                coroutineScope.launch {
-                    sheetState.hide()
-                }
-                isSheetOpen = false
-            }
-        }
-
-
-    }
 
     Scaffold(
         content = { paddingValues ->
@@ -175,10 +163,14 @@ internal fun MainScreen(
             sheetState = sheetState
         ) {
             BottomSheetContent(
-                onSaveGratitude = { gratitudeRecord ->
-                    viewModel.saveGratitudeRecord(gratitudeRecord)
+                onClose = {
+                    coroutineScope.launch {
+                        sheetState.hide()
+                    }
+                    isSheetOpen = false
                 }
             )
+
         }
     }
 }
@@ -363,7 +355,6 @@ private fun BottomAddGratitudeButton(
                     onClickAddGratitude()
                 }
             }
-
     )
 }
 

@@ -11,8 +11,9 @@ import androidx.room.Query
 interface GratitudeRecordDao {
 
     //오늘 유저가 작성한 감사일기 가져오기
-    @Query("SELECT gratitudeMemo FROM GratitudeRecord WHERE DATE(timeStamp / 1000, 'unixepoch') = Date('now')")
+    @Query("SELECT gratitudeMemo || ' ' || gratitudeType FROM GratitudeRecord WHERE DATE(timeStamp / 1000, 'unixepoch') = DATE('now')")
     fun getTodayGratitudeMemo(): Flow<String?>
+
 
     //오늘 작성 여부 확인
     @Query("SELECT COUNT(*) > 0 FROM GratitudeRecord WHERE DATE(timeStamp / 1000, 'unixepoch') = DATE('now')")
