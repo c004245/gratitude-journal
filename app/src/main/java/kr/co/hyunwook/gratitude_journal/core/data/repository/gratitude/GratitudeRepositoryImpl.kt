@@ -4,6 +4,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.zip
 import kr.co.hyunwook.gratitude_journal.core.database.GratitudeRecordDao
+import kr.co.hyunwook.gratitude_journal.core.database.GratitudeRecordMonthly
 import kr.co.hyunwook.gratitude_journal.core.database.TodayGratitudeSummary
 import kr.co.hyunwook.gratitude_journal.core.database.entity.GratitudeRecord
 import kr.co.hyunwook.gratitude_journal.core.datastore.datasource.GratitudePreferencesDataSource
@@ -40,5 +41,8 @@ class GratitudeRepositoryImpl @Inject constructor(
 
     override suspend fun getYearTotalGratitude(year: String): Flow<List<Int>>  =
         gratitudeRecordDao.getYearTotalGratitude(year)
+
+    override suspend fun getGratitudeRecordsByMonth(yearMonth: String): Flow<List<GratitudeRecordMonthly>> =
+        gratitudeRecordDao.getGratitudeRecordsByMonth(yearMonth)
 
 }

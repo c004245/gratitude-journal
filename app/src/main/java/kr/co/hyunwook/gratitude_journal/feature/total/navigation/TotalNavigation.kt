@@ -9,7 +9,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 
 fun NavGraphBuilder.totalNavGraph(
-    navigateToTotalMonthly: (Int) -> Unit
+    navigateToTotalMonthly: (String) -> Unit
 ) {
     composable<Total> {
         TotalScreen(

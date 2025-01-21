@@ -19,6 +19,8 @@ interface GratitudeRecordDao {
     @Query("SELECT COUNT(*) > 0 FROM GratitudeRecord WHERE DATE(timeStamp / 1000, 'unixepoch') = DATE('now')")
     fun hasWrittenToday(): Flow<Boolean>
 
+
+    //몇 일 연속 작성하고 있는가
     @Query("""
     SELECT 
         CASE WHEN EXISTS (
@@ -40,6 +42,8 @@ interface GratitudeRecordDao {
     fun getConsecutiveDays(): Flow<Int>
 
 
+
+    //감사 일기 저장
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveGratitudeRecord(recordDao: GratitudeRecord)
 
@@ -52,8 +56,22 @@ interface GratitudeRecordDao {
         ORDER BY month ASC
     """)
     fun getYearTotalGratitude(year: String): Flow<List<Int>>
+
+
+    //해당 연도월에 감사일기 가져오기
+    @Query("""
+        SELECT gratitudeMemo, gratitudeType 
+        FROM GratitudeRecord 
+        WHERE strftime('%Y-%m', datetime(timeStamp / 1000, 'unixepoch')) = :yearMonth
+    """)
+    fun getGratitudeRecordsByMonth(yearMonth: String): Flow<List<GratitudeRecordMonthly>>
 }
 
+
+data class GratitudeRecordMonthly(
+    val gratitudeMemo: String,
+    val gratitudeType: String
+)
 
 data class TodayGratitudeSummary(
     val hasWrittenToday: Boolean,

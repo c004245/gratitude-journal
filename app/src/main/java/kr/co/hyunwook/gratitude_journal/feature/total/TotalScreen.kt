@@ -59,7 +59,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 @Composable
 fun TotalScreen(
     viewModel: TotalViewModel = hiltViewModel(),
-    navigateToTotalMonthly: (Int) -> Unit = {}
+    navigateToTotalMonthly: (String) -> Unit = {}
 ) {
 
     val calendar = remember { getInstance() }
@@ -116,6 +116,7 @@ fun TotalScreen(
                     )
                 }
                 TotalGridView(
+                    year = currentYear,
                     navigateToTotalMonthly = navigateToTotalMonthly
                 )
 
@@ -161,7 +162,8 @@ fun TotalMonthly(
 
 @Composable
 fun TotalGridView(
-    navigateToTotalMonthly: (Int) -> Unit = {}
+    year: Int,
+    navigateToTotalMonthly: (String) -> Unit = {}
 ) {
     val monthlyItems = listOf(
         TotalGridItem(1, purpleA1, R.drawable.ic_total_jan),
@@ -188,7 +190,7 @@ fun TotalGridView(
                 modifier = Modifier.aspectRatio(1f).clip(RoundedCornerShape(15.dp))
                     .background(item.backgroundColor)
                     .clickable {
-                        navigateToTotalMonthly(item.month)
+                        navigateToTotalMonthly("$year-${String.format("%02d", item.month)}")
                     },
                 contentAlignment = Alignment.Center
             ) {

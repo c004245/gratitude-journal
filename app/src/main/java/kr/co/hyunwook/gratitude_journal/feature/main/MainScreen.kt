@@ -88,7 +88,7 @@ internal fun MainScreen(
 
     var selectedTab by remember { mutableStateOf(SelectedTab.HOME) }
 
-    var selectedMonth by remember { mutableIntStateOf(0) }
+    var selectYearMonth by remember { mutableStateOf("") }
     val currentRoute =
         navigator.navController.currentBackStackEntryFlow.collectAsState(null).value?.destination?.route
 
@@ -133,11 +133,11 @@ internal fun MainScreen(
                     )
                     totalNavGraph(
                         navigateToTotalMonthly = {
-                            selectedMonth = it
+                            selectYearMonth = it
                             navigate(navigator, TotalMonthly)
                         }
                     )
-                    totalMonthlyNavGraph(selectedMonth)
+                    totalMonthlyNavGraph(selectYearMonth)
 
                 }
             }
