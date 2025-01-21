@@ -1,7 +1,10 @@
 package kr.co.hyunwook.gratitude_journal.feature.total
 
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import kr.co.hyunwook.gratitude_journal.core.database.GratitudeRecordMonthly
 import kr.co.hyunwook.gratitude_journal.core.domain.usecase.GetGratitudeRecordMonthlyUseCase
 import kr.co.hyunwook.gratitude_journal.core.domain.usecase.GetYearTotalGratitudeUseCase
 import android.util.Log
@@ -15,6 +18,8 @@ class TotalViewModel @Inject constructor(
     private val getGratitudeRecordMonthlyUseCase: GetGratitudeRecordMonthlyUseCase
 ): ViewModel() {
 
+    private val _monthlyGratitudeRecords = MutableStateFlow<List<GratitudeRecordMonthly>>(emptyList())
+    val monthlyGratitudeRecords: StateFlow<List<GratitudeRecordMonthly>> get() = _monthlyGratitudeRecords
     fun getYearGratitudeRecord(year: String) {
         viewModelScope.launch {
             getYearTotalGratitudeUseCase(year).collect {
@@ -28,6 +33,7 @@ class TotalViewModel @Inject constructor(
         viewModelScope.launch {
             getGratitudeRecordMonthlyUseCase(yearMonth).collect {
                 Log.d("HWO", "getGratitudeRecordMonthly -> $it")
+                _monthlyGratitudeRecords.value = it
             }
         }
     }
