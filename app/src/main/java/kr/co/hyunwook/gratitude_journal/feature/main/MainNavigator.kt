@@ -5,6 +5,7 @@ import kr.co.hyunwook.gratitude_journal.feature.home.navigation.Home
 import kr.co.hyunwook.gratitude_journal.feature.main.onboarding.navigation.OnBoarding
 import kr.co.hyunwook.gratitude_journal.feature.main.splash.navigation.Splash
 import kr.co.hyunwook.gratitude_journal.feature.total.navigation.Total
+import kr.co.hyunwook.gratitude_journal.feature.total.navigation.TotalMonthly
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.navigation.NavController
@@ -43,10 +44,16 @@ class MainNavigator(
         navController.navigate(Total, navOptions = navOptions)
     }
 
+    fun navigateToTotalMonthly(
+        navOptions: NavOptions
+    ) {
+        navController.navigate(TotalMonthly, navOptions = navOptions)
+    }
+
     @Composable
     fun isShowBottomBar(): Boolean {
         val currentRoute = findRouteFromDestination(currentDestination?.route)
-        return currentRoute == Home || currentRoute == Total
+        return currentRoute == Home || currentRoute == Total || currentRoute == TotalMonthly
     }
 }
 
@@ -56,6 +63,7 @@ fun findRouteFromDestination(route: String?): Route? {
         OnBoarding.route -> OnBoarding
         Home.route -> Home
         Total.route -> Total
+        TotalMonthly.route -> TotalMonthly
         else -> null
     }
 }

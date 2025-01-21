@@ -12,6 +12,8 @@ import kr.co.hyunwook.gratitude_journal.feature.main.onboarding.navigation.OnBoa
 import kr.co.hyunwook.gratitude_journal.feature.main.onboarding.navigation.onboardingNavGraph
 import kr.co.hyunwook.gratitude_journal.feature.main.splash.navigation.splashNavGraph
 import kr.co.hyunwook.gratitude_journal.feature.total.navigation.Total
+import kr.co.hyunwook.gratitude_journal.feature.total.navigation.TotalMonthly
+import kr.co.hyunwook.gratitude_journal.feature.total.navigation.totalMonthlyNavGraph
 import kr.co.hyunwook.gratitude_journal.feature.total.navigation.totalNavGraph
 import kr.co.hyunwook.gratitude_journal.ui.theme.GratitudeTheme
 import kr.co.hyunwook.gratitude_journal.ui.theme.black24
@@ -44,6 +46,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -85,10 +88,12 @@ internal fun MainScreen(
 
     var selectedTab by remember { mutableStateOf(SelectedTab.HOME) }
 
+    var selectedMonth by remember { mutableIntStateOf(0) }
     val currentRoute =
         navigator.navController.currentBackStackEntryFlow.collectAsState(null).value?.destination?.route
 
     val todayGratitudeSummary = viewModel.todayGratitudeSummary.collectAsState().value
+
 
     LaunchedEffect(currentRoute) {
         if (currentRoute == Home.route) {
@@ -126,7 +131,14 @@ internal fun MainScreen(
                     homeNavGraph(
                         todayGratitudeSummary = todayGratitudeSummary
                     )
-                    totalNavGraph()
+                    totalNavGraph(
+                        navigateToTotalMonthly = {
+                            selectedMonth = it
+                            navigate(navigator, TotalMonthly)
+                        }
+                    )
+                    totalMonthlyNavGraph(selectedMonth)
+
                 }
             }
         },
@@ -374,8 +386,13 @@ fun navigate(navigator: MainNavigator, route: Route) {
         Home -> {
             navigator.navigateToHome(navOptions)
         }
+
         Total -> {
             navigator.navigateToTotal(navOptions)
+        }
+
+        TotalMonthly -> {
+            navigator.navigateToTotalMonthly(navOptions)
         }
 
     }

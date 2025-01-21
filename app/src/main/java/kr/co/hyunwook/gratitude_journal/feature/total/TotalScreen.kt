@@ -29,8 +29,10 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -56,7 +58,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 
 @Composable
 fun TotalScreen(
-    viewModel: TotalViewModel = hiltViewModel()
+    viewModel: TotalViewModel = hiltViewModel(),
+    navigateToTotalMonthly: (Int) -> Unit = {}
 ) {
 
     val calendar = remember { getInstance() }
@@ -98,7 +101,23 @@ fun TotalScreen(
 
 
                     })
-                TotalGridView()
+
+                Spacer(Modifier.height(20.dp))
+                Box(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = stringResource(R.string.text_splash),
+                        style = GratitudeTheme.typography.regular,
+                        color = Color.White,
+                        fontSize = 12.sp,
+                        textAlign = TextAlign.Center
+                    )
+                }
+                TotalGridView(
+                    navigateToTotalMonthly = navigateToTotalMonthly
+                )
 
             }
         }
@@ -121,9 +140,7 @@ fun TotalMonthly(
             contentDescription = null,
             modifier = Modifier.clickable {
                 onPreviousYear()
-            },
-
-            )
+            })
 
         Text(
             text = "${year}년의 감사일기",
@@ -143,20 +160,22 @@ fun TotalMonthly(
 }
 
 @Composable
-fun TotalGridView() {
+fun TotalGridView(
+    navigateToTotalMonthly: (Int) -> Unit = {}
+) {
     val monthlyItems = listOf(
-        TotalGridItem(1, purpleA1, R.drawable.ic_done_gratitude),
-        TotalGridItem(2, greenA1, R.drawable.ic_done_gratitude),
-        TotalGridItem(3, green97, R.drawable.ic_done_gratitude),
-        TotalGridItem(4, pinkFF, R.drawable.ic_done_gratitude),
-        TotalGridItem(5, orangeF0, R.drawable.ic_done_gratitude),
-        TotalGridItem(6, blueA3, R.drawable.ic_done_gratitude),
-        TotalGridItem(7, yellowF8, R.drawable.ic_done_gratitude),
-        TotalGridItem(8, blueA7, R.drawable.ic_done_gratitude),
-        TotalGridItem(9, blue8A, R.drawable.ic_done_gratitude),
-        TotalGridItem(10, orangeEE, R.drawable.ic_done_gratitude),
-        TotalGridItem(11, grayBB, R.drawable.ic_done_gratitude),
-        TotalGridItem(12, redDD, R.drawable.ic_done_gratitude),
+        TotalGridItem(1, purpleA1, R.drawable.ic_total_jan),
+        TotalGridItem(2, greenA1, R.drawable.ic_total_feb),
+        TotalGridItem(3, green97, R.drawable.ic_total_march),
+        TotalGridItem(4, pinkFF, R.drawable.ic_total_april),
+        TotalGridItem(5, orangeF0, R.drawable.ic_total_may),
+        TotalGridItem(6, blueA3, R.drawable.ic_total_june),
+        TotalGridItem(7, yellowF8, R.drawable.ic_total_july),
+        TotalGridItem(8, blueA7, R.drawable.ic_total_august),
+        TotalGridItem(9, blue8A, R.drawable.ic_total_secember),
+        TotalGridItem(10, orangeEE, R.drawable.ic_total_october),
+        TotalGridItem(11, grayBB, R.drawable.ic_total_november),
+        TotalGridItem(12, redDD, R.drawable.ic_total_december),
     )
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
@@ -169,7 +188,7 @@ fun TotalGridView() {
                 modifier = Modifier.aspectRatio(1f).clip(RoundedCornerShape(15.dp))
                     .background(item.backgroundColor)
                     .clickable {
-
+                        navigateToTotalMonthly(item.month)
                     },
                 contentAlignment = Alignment.Center
             ) {
