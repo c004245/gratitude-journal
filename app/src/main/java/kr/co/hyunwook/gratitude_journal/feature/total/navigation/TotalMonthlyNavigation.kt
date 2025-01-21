@@ -7,11 +7,14 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 
 fun NavGraphBuilder.totalMonthlyNavGraph(
-    selectYearMonth: String
+    selectYearMonth: String,
+    navigateToTotal: () -> Unit,
+
 ) {
     composable<TotalMonthly> {
         TotalMonthlyScreen(
-            selectYearMonth = selectYearMonth
+            selectYearMonth = selectYearMonth,
+            navigateToTotal = navigateToTotal
         )
     }
 }

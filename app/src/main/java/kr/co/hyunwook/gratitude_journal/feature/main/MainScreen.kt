@@ -137,7 +137,11 @@ internal fun MainScreen(
                             navigate(navigator, TotalMonthly)
                         }
                     )
-                    totalMonthlyNavGraph(selectYearMonth)
+                    totalMonthlyNavGraph(
+                        selectYearMonth,
+                        navigateToTotal = {
+                            navigate(navigator, Total)
+                        })
 
                 }
             }
