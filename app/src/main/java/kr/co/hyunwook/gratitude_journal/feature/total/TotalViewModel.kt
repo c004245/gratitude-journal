@@ -20,10 +20,15 @@ class TotalViewModel @Inject constructor(
 
     private val _monthlyGratitudeRecords = MutableStateFlow<List<GratitudeRecordMonthly>>(emptyList())
     val monthlyGratitudeRecords: StateFlow<List<GratitudeRecordMonthly>> get() = _monthlyGratitudeRecords
+
+    private val _monthGratitude = MutableStateFlow<List<Int>>(emptyList())
+    val monthGratitude: StateFlow<List<Int>> get() = _monthGratitude
+
     fun getYearGratitudeRecord(year: String) {
         viewModelScope.launch {
             getYearTotalGratitudeUseCase(year).collect {
                 Log.d("HWO", "getYearGratitude -> $it")
+                _monthGratitude.value = it
             }
         }
     }

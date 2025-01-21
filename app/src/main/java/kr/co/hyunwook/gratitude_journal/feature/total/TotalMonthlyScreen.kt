@@ -52,6 +52,8 @@ fun TotalMonthlyScreen(
 ) {
 
     val monthlyGratitudeRecords by viewModel.monthlyGratitudeRecords.collectAsState()
+
+
     LaunchedEffect(Unit) {
         viewModel.getGratitudeRecordMonthly(selectYearMonth)
     }

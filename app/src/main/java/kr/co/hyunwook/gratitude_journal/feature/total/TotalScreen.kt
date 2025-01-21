@@ -40,6 +40,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -65,6 +66,8 @@ fun TotalScreen(
     val calendar = remember { getInstance() }
     var currentYear by remember { mutableIntStateOf(calendar.get(YEAR)) }
 
+    //데이터가 있는 달만 그리드뷰로 표시
+    val visibleMonths by viewModel.monthGratitude.collectAsState()
 
     LaunchedEffect(Unit) {
         viewModel.getYearGratitudeRecord(currentYear.toString())
@@ -116,6 +119,7 @@ fun TotalScreen(
                     )
                 }
                 TotalGridView(
+                    visibleMonths,
                     year = currentYear,
                     navigateToTotalMonthly = navigateToTotalMonthly
                 )
@@ -162,9 +166,12 @@ fun TotalMonthly(
 
 @Composable
 fun TotalGridView(
+    visibleMonths: List<Int>,
     year: Int,
     navigateToTotalMonthly: (String) -> Unit = {}
 ) {
+
+
     val monthlyItems = listOf(
         TotalGridItem(1, purpleA1, R.drawable.ic_total_jan),
         TotalGridItem(2, greenA1, R.drawable.ic_total_feb),
@@ -179,13 +186,15 @@ fun TotalGridView(
         TotalGridItem(11, grayBB, R.drawable.ic_total_november),
         TotalGridItem(12, redDD, R.drawable.ic_total_december),
     )
+
+    val filteredItem = monthlyItems.filter { visibleMonths.contains(it.month) }
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         contentPadding = PaddingValues(16.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        items(monthlyItems) { item ->
+        items(filteredItem) { item ->
             Box(
                 modifier = Modifier.aspectRatio(1f).clip(RoundedCornerShape(15.dp))
                     .background(item.backgroundColor)
