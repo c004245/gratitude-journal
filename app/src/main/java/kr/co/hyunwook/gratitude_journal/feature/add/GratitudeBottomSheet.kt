@@ -8,14 +8,20 @@ import kr.co.hyunwook.gratitude_journal.ui.theme.black24
 import kr.co.hyunwook.gratitude_journal.ui.theme.yellowFF
 import kr.co.hyunwook.gratitude_journal.ui.theme.yellowFFOpacity30
 import kr.co.hyunwook.gratitude_journal.util.getGratitudeEmojis
+import android.graphics.Paint.Align
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.isImeVisible
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -31,6 +37,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.painterResource
@@ -39,11 +48,15 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun GratitudeBottomSheet(onSaveGratitude: (GratitudeRecord) -> Unit, onClose: () -> Unit) {
     var gratitudeText by remember { mutableStateOf("") }
 
     val saveButtonBackground = if (gratitudeText.isEmpty()) yellowFFOpacity30 else yellowFF
+
+    val isKeyboardVisible = WindowInsets.isImeVisible
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -64,24 +77,34 @@ fun GratitudeBottomSheet(onSaveGratitude: (GratitudeRecord) -> Unit, onClose: ()
                     gratitudeText = it
                 }
             )
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth().weight(1f).padding(bottom = 16.dp),
-                verticalArrangement = Arrangement.Bottom,
-                horizontalAlignment = Alignment.CenterHorizontally
+            Spacer(modifier = Modifier.weight(1f))
+            Box(
+                modifier = Modifier.fillMaxWidth(),
+                contentAlignment = Alignment.BottomCenter
             ) {
-                Image(
-                    painter = painterResource(R.drawable.ic_add_bottom_background),
-                    contentDescription = null,
-                    modifier = Modifier.padding(bottom = 48.dp)
-                )
-                SaveGratitudeButton(
-                    gratitudeText = gratitudeText,
-                    buttonBackgroundColor = saveButtonBackground,
-                    onSaveGratitude = {
-                        onSaveGratitude(it)
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    if (!isKeyboardVisible) {
+                        Image(
+                            painter = painterResource(R.drawable.ic_add_bottom_background),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .padding(bottom = 48.dp)
+                        )
                     }
-                )
+                    SaveGratitudeButton(
+                        gratitudeText = gratitudeText,
+                        buttonBackgroundColor = saveButtonBackground,
+                        onSaveGratitude = {
+                            onSaveGratitude(it)
+                        },
+                        modifier = Modifier.fillMaxWidth()
+                            .padding(bottom = if (isKeyboardVisible) 16.dp else 0.dp)
+                            .imePadding()
+                    )
+                }
             }
         }
     }
@@ -121,6 +144,9 @@ fun GratitudeTextField(gratitudeText: String, onTextChange: (String) -> Unit) {
     val backgroundColor = if (gratitudeText.isEmpty()) black46 else yellowFF
     val textColor = if (gratitudeText.isEmpty()) Color.White else black24
 
+    val focusRequester = remember { FocusRequester() }
+    val isFocused = remember { mutableStateOf(false) }
+
     Box(
         modifier = Modifier.fillMaxWidth().padding(top = 20.dp, start = 4.dp, end = 4.dp)
             .background(backgroundColor, shape = RoundedCornerShape(15.dp)).padding(15.dp)
@@ -130,7 +156,11 @@ fun GratitudeTextField(gratitudeText: String, onTextChange: (String) -> Unit) {
             onValueChange = onTextChange,
             modifier = Modifier
                 .fillMaxWidth()
-                .wrapContentHeight(),
+                .wrapContentHeight()
+                .focusRequester(focusRequester)
+                .onFocusChanged { focusState ->
+                    isFocused.value = focusState.isFocused
+                },
             textStyle = TextStyle(
                 color = textColor,
                 fontSize = 14.sp,
@@ -141,9 +171,9 @@ fun GratitudeTextField(gratitudeText: String, onTextChange: (String) -> Unit) {
                     modifier = Modifier.wrapContentHeight().fillMaxWidth().padding(0.dp),
                     contentAlignment = Alignment.TopStart
                 ) {
-                    if (gratitudeText.isEmpty()) {
+                    if (gratitudeText.isEmpty() && !isFocused.value) {
                         Text(
-                            text = "말풍선을 클릭해서 내용을 작성해요.",
+                            text = stringResource(R.string.text_add_bottom_hint),
                             color = Color.White,
                             style = GratitudeTheme.typography.regular,
                             fontSize = 14.sp
@@ -164,7 +194,8 @@ fun GratitudeTextField(gratitudeText: String, onTextChange: (String) -> Unit) {
 fun SaveGratitudeButton(
     gratitudeText: String,
     onSaveGratitude: (GratitudeRecord) -> Unit,
-    buttonBackgroundColor: Color
+    buttonBackgroundColor: Color,
+    modifier: Modifier = Modifier
 ) {
     Button(
         {
@@ -176,7 +207,7 @@ fun SaveGratitudeButton(
             onSaveGratitude(record)
 
         },
-        Modifier.fillMaxWidth().height(47.dp),
+        modifier = modifier,
         shape = RoundedCornerShape(13.dp),
         colors = ButtonDefaults.buttonColors(
             containerColor = buttonBackgroundColor,
