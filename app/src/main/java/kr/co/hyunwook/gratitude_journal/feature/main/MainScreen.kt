@@ -248,14 +248,14 @@ private fun BottomBarSurface(
             BottomBarItem(
                 onClick = onClickHome,
                 isSelected = selectedTab == SelectedTab.HOME,
-                iconRes = R.drawable.ic_dailygrow_select_tab,
+                iconRes = R.drawable.ic_today_select_tab,
                 labelRes = R.string.text_today_gratitude,
                 modifier = Modifier.weight(1f)
             )
             BottomBarItem(
                 onClick = onClickTotal,
                 isSelected = selectedTab == SelectedTab.TOTAL,
-                iconRes = R.drawable.ic_dailygrow_select_tab,
+                iconRes = R.drawable.ic_total_select_tab,
                 labelRes = R.string.text_total_gratitude,
                 modifier = Modifier.weight(1f)
             )
