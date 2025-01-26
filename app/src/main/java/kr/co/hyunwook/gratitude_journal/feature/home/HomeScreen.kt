@@ -15,11 +15,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
@@ -35,6 +37,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
 
 @Composable
@@ -100,14 +103,43 @@ fun RemoteConfigDeerMessage(viewModel: HomeViewModel) {
 
     Box(
         modifier = Modifier.padding(top = 10.dp, start = 20.dp, end = 40.dp)
-            .background(yellowFF, shape = RoundedCornerShape(15.dp)).padding(15.dp)
+            .wrapContentSize()
     ) {
+        // 말풍선 박스
+        Box(
+            modifier = Modifier
+                .background(
+                    color = yellowFF,
+                    shape = RoundedCornerShape(15.dp)
+                )
+                .padding(15.dp)
+                .align(Alignment.TopCenter) // Align text box in the center for better layout
+        ) {
+            Text(
+                text = deerMessage,
+                style = GratitudeTheme.typography.regular,
+                fontSize = 14.sp,
+                color = black24
+            )
+        }
 
-        Text(
-            text = deerMessage,
-            style = GratitudeTheme.typography.regular,
-            fontSize = 14.sp,
-            color = black24
+        // 꼬리 이미지
+        Image(
+            painter = painterResource(id = R.drawable.ic_deer_tail), // 꼬리 이미지 리소스 사용
+            contentDescription = null,
+            modifier = Modifier
+                .size(15.dp) // 꼬리 이미지 크기 조정
+                .align(Alignment.TopStart) // 박스 왼쪽 상단에 배치
+                .offset(x = (-10).dp, y = (13).dp) // 이미지 위치 조정
+        )
+        // 오른쪽 상단 이미지
+        Image(
+            painter = painterResource(id = R.drawable.ic_deer_character), // 오른쪽 상단 이미지 리소스
+            contentDescription = null,
+            modifier = Modifier
+                .size(37.dp) // 이미지 크기 조정
+                .align(Alignment.TopEnd) // 박스 오른쪽 상단에 배치
+                .offset(x = (-26).dp, y = (-32).dp) // 이미지 위치 조정
         )
     }
 }
@@ -142,17 +174,33 @@ fun MyGratitudeMessage(todayGratitudeSummary: TodayGratitudeSummary?) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(start = 40.dp)
-            .background(backgroundColor, shape = RoundedCornerShape(15.dp))
-            .padding(15.dp)
     ) {
-        Text(
-            text = messageText,
-            style = GratitudeTheme.typography.regular,
-            fontSize = 14.sp,
-            color = textColor
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(backgroundColor, shape = RoundedCornerShape(15.dp))
+                .padding(15.dp)
+        ) {
+            Text(
+                text = messageText,
+                style = GratitudeTheme.typography.regular,
+                fontSize = 14.sp,
+                color = textColor
+            )
+        }
+
+        Image(
+            painter = painterResource(id = R.drawable.ic_my_tail),
+            contentDescription = null,
+            modifier = Modifier
+                .size(15.dp)
+                .align(Alignment.TopEnd)
+                .offset(x = 14.dp, y = 15.dp)
         )
     }
 }
+
+
 
 @Composable
 fun TodayGratitdeWidget(
