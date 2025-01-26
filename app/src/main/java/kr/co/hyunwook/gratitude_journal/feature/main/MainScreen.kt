@@ -292,66 +292,38 @@ private fun BottomBarItem(
     }
 }
 
-
 @Composable
 private fun TopDecorativeLine(modifier: Modifier = Modifier) {
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .height(6.dp)
+            .height(2.dp)
             .drawBehind {
-                val gapWidth = 90.dp.toPx()
-                val lineHeight = size.height
-                val lineWidth = (size.width - gapWidth) / 2
-                val cornerRadius = lineHeight / 2
+                val gapWidth = 90.dp.toPx() // 중앙 비어있는 공간의 너비
+                val lineHeight = size.height // 라인의 높이 (6.dp)
+                val lineWidth = (size.width - gapWidth) / 2 // 각각의 라인 너비
 
                 val path = Path().apply {
                     // 왼쪽 라인
-                    moveTo(0f, lineHeight / 2)
-                    arcTo(
-                        rect = Rect(0f, 0f, lineHeight, lineHeight),
-                        startAngleDegrees = 90f,
-                        sweepAngleDegrees = 180f,
-                        forceMoveTo = false
-                    )
-                    lineTo(lineWidth, 0f)
-                    lineTo(lineWidth, lineHeight)
-                    arcTo(
-                        rect = Rect(lineWidth - lineHeight, 0f, lineWidth, lineHeight),
-                        startAngleDegrees = 0f,
-                        sweepAngleDegrees = -180f,
-                        forceMoveTo = false
-                    )
-                    close()
+                    moveTo(0f, 0f) // 시작점 (왼쪽 위)
+                    lineTo(lineWidth, 0f) // 상단 직선
+                    lineTo(lineWidth, lineHeight) // 오른쪽 하단 직선
+                    lineTo(0f, lineHeight) // 왼쪽 하단 직선
+                    close() // 경로 닫기
 
                     // 오른쪽 라인
-                    moveTo(size.width - lineWidth, lineHeight / 2)
-                    arcTo(
-                        rect = Rect(size.width - lineHeight, 0f, size.width, lineHeight),
-                        startAngleDegrees = 90f,
-                        sweepAngleDegrees = 180f,
-                        forceMoveTo = false
-                    )
-                    lineTo(size.width - lineWidth, 0f)
-                    lineTo(size.width - lineWidth, lineHeight)
-                    arcTo(
-                        rect = Rect(
-                            size.width - lineWidth,
-                            0f,
-                            size.width - lineWidth + lineHeight,
-                            lineHeight
-                        ),
-                        startAngleDegrees = 0f,
-                        sweepAngleDegrees = -180f,
-                        forceMoveTo = false
-                    )
-                    close()
+                    moveTo(size.width - lineWidth, 0f) // 오른쪽 상단 시작점
+                    lineTo(size.width, 0f) // 오른쪽 상단 직선
+                    lineTo(size.width, lineHeight) // 오른쪽 하단 직선
+                    lineTo(size.width - lineWidth, lineHeight) // 왼쪽 하단 직선
+                    close() // 경로 닫기
                 }
 
                 drawPath(path, color = yellow50)
             }
     )
 }
+
 
 @Composable
 private fun BottomAddGratitudeButton(

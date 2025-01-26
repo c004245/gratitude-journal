@@ -166,6 +166,7 @@ fun MyGratitudeWidget(todayGratitudeSummary: TodayGratitudeSummary?) {
 fun MyGratitudeMessage(todayGratitudeSummary: TodayGratitudeSummary?) {
     val hasWrittenToday = todayGratitudeSummary?.hasWrittenToday == true
     val backgroundColor = if (hasWrittenToday) yellowFF else black46
+    val tailState = if (hasWrittenToday) R.drawable.ic_my_tail_done else R.drawable.ic_my_tail
     val textColor = if (hasWrittenToday) black24 else Color.White
     val messageText = todayGratitudeSummary?.todayGratitudeMemo
         ?: stringResource(R.string.text_home_my_send_message_default)
@@ -190,12 +191,12 @@ fun MyGratitudeMessage(todayGratitudeSummary: TodayGratitudeSummary?) {
         }
 
         Image(
-            painter = painterResource(id = R.drawable.ic_my_tail),
+            painter = painterResource(id = tailState),
             contentDescription = null,
             modifier = Modifier
                 .size(15.dp)
                 .align(Alignment.TopEnd)
-                .offset(x = 14.dp, y = 15.dp)
+                .offset(x = 10.dp, y = 13.dp)
         )
     }
 }

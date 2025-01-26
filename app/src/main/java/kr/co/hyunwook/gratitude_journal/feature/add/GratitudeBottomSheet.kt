@@ -144,6 +144,7 @@ private fun TopSection(onClose: () -> Unit) {
 fun GratitudeTextField(gratitudeText: String, onTextChange: (String) -> Unit) {
     val backgroundColor = if (gratitudeText.isEmpty()) black46 else yellowFF
     val textColor = if (gratitudeText.isEmpty()) Color.White else black24
+    val tailState = if (gratitudeText.isEmpty()) R.drawable.ic_my_tail else R.drawable.ic_my_tail_done
 
     val focusRequester = remember { FocusRequester() }
     val isFocused = remember { mutableStateOf(false) }
@@ -156,12 +157,12 @@ fun GratitudeTextField(gratitudeText: String, onTextChange: (String) -> Unit) {
     ) {
         // 오른쪽 상단에 ic_deer_tail 이미지 배치
         Image(
-            painter = painterResource(id = R.drawable.ic_my_tail),
+            painter = painterResource(id = tailState),
             contentDescription = null,
             modifier = Modifier
                 .size(15.dp) // 이미지 크기 설정
                 .align(Alignment.TopEnd) // 오른쪽 상단에 배치
-                .offset(x = 13.dp, y = 12.dp) // 위치 미세 조정
+                .offset(x = 10.dp, y = 13.dp) // 위치 미세 조정
         )
 
         // 메인 Box
