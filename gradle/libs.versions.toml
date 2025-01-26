@@ -24,6 +24,7 @@ androidxCoreSplash = "1.0.1"
 androidxRoom = "2.6.1"
 androidxDatastore = "1.1.1"
 firebaseCommonKtx = "21.0.0"
+tedPermission = "3.3.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -68,6 +69,7 @@ firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.r
 firebase-config = { group = "com.google.firebase", name = "firebase-config-ktx"}
 firebase-common-ktx = { group = "com.google.firebase", name = "firebase-common-ktx", version.ref = "firebaseCommonKtx" }
 
+tedPermission = { group = "io.github.ParkSangGwon", name = "tedpermission-normal", version.ref = "tedPermission"}
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }

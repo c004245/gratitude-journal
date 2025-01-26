@@ -88,5 +88,7 @@ dependencies {
     implementation(libs.firebase.config)
     implementation(libs.firebase.common.ktx)
 
+    implementation(libs.tedPermission)
+
 
 }
