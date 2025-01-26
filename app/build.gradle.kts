@@ -53,6 +53,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -87,6 +88,7 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.config)
     implementation(libs.firebase.common.ktx)
+    implementation(libs.firebase.messaging)
 
     implementation(libs.tedPermission)
 
