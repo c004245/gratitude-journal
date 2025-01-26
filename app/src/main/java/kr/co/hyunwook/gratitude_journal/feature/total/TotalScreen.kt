@@ -66,7 +66,6 @@ fun TotalScreen(
     val calendar = remember { getInstance() }
     var currentYear by remember { mutableIntStateOf(calendar.get(YEAR)) }
 
-    //데이터가 있는 달만 그리드뷰로 표시
     val visibleMonths by viewModel.monthGratitude.collectAsState()
 
     LaunchedEffect(Unit) {
@@ -111,10 +110,10 @@ fun TotalScreen(
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = stringResource(R.string.text_splash),
+                        text = stringResource(R.string.text_total_title),
                         style = GratitudeTheme.typography.regular,
                         color = Color.White,
-                        fontSize = 12.sp,
+                        fontSize = 14.sp,
                         textAlign = TextAlign.Center
                     )
                 }
@@ -227,7 +226,7 @@ fun TotalGridView(
                 }
                 Box(
                     modifier = Modifier.align(Alignment.BottomEnd)
-                        .padding(0.dp)
+                        .padding(0.dp, end = 8.dp, bottom = 8.dp)
                 ) {
                     Image(
                         painter = painterResource(item.backgroundIcon),

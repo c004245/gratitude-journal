@@ -22,7 +22,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.isImeVisible
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
@@ -61,7 +63,6 @@ fun GratitudeBottomSheet(onSaveGratitude: (GratitudeRecord) -> Unit, onClose: ()
         modifier = Modifier
             .fillMaxWidth()
             .height(580.dp)
-            .padding(20.dp)
     ) {
         Column(
             modifier = Modifier.fillMaxWidth()
@@ -101,7 +102,7 @@ fun GratitudeBottomSheet(onSaveGratitude: (GratitudeRecord) -> Unit, onClose: ()
                             onSaveGratitude(it)
                         },
                         modifier = Modifier.fillMaxWidth()
-                            .padding(bottom = if (isKeyboardVisible) 16.dp else 0.dp)
+                            .padding(bottom = if (isKeyboardVisible) 16.dp else 20.dp)
                             .imePadding()
                     )
                 }
@@ -147,48 +148,72 @@ fun GratitudeTextField(gratitudeText: String, onTextChange: (String) -> Unit) {
     val focusRequester = remember { FocusRequester() }
     val isFocused = remember { mutableStateOf(false) }
 
+    // 상위 Box로 감싸기
     Box(
-        modifier = Modifier.fillMaxWidth().padding(top = 20.dp, start = 4.dp, end = 4.dp)
-            .background(backgroundColor, shape = RoundedCornerShape(15.dp)).padding(15.dp)
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 20.dp, start = 4.dp, end = 4.dp)
     ) {
-        BasicTextField(
-            value = gratitudeText,
-            onValueChange = onTextChange,
+        // 오른쪽 상단에 ic_deer_tail 이미지 배치
+        Image(
+            painter = painterResource(id = R.drawable.ic_my_tail),
+            contentDescription = null,
+            modifier = Modifier
+                .size(15.dp) // 이미지 크기 설정
+                .align(Alignment.TopEnd) // 오른쪽 상단에 배치
+                .offset(x = 13.dp, y = 12.dp) // 위치 미세 조정
+        )
+
+        // 메인 Box
+        Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .wrapContentHeight()
-                .focusRequester(focusRequester)
-                .onFocusChanged { focusState ->
-                    isFocused.value = focusState.isFocused
-                },
-            textStyle = TextStyle(
-                color = textColor,
-                fontSize = 14.sp,
-            ),
-            cursorBrush = SolidColor(Color.White),
-            decorationBox = { innerTextField ->
-                Box(
-                    modifier = Modifier.wrapContentHeight().fillMaxWidth().padding(0.dp),
-                    contentAlignment = Alignment.TopStart
-                ) {
-                    if (gratitudeText.isEmpty() && !isFocused.value) {
-                        Text(
-                            text = stringResource(R.string.text_add_bottom_hint),
-                            color = Color.White,
-                            style = GratitudeTheme.typography.regular,
-                            fontSize = 14.sp
-                        )
-                    }
+                .background(backgroundColor, shape = RoundedCornerShape(15.dp))
+                .padding(top = 10.dp, bottom = 10.dp, start = 15.dp)
+        ) {
+            BasicTextField(
+                value = gratitudeText,
+                onValueChange = onTextChange,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+                    .focusRequester(focusRequester)
+                    .onFocusChanged { focusState ->
+                        isFocused.value = focusState.isFocused
+                    },
+                textStyle = TextStyle(
+                    color = textColor,
+                    fontSize = 14.sp,
+                ),
+                cursorBrush = SolidColor(Color.White),
+                decorationBox = { innerTextField ->
                     Box(
-                        modifier = Modifier.padding(15.dp)
+                        modifier = Modifier
+                            .wrapContentHeight()
+                            .fillMaxWidth()
+                            .padding(0.dp),
+                        contentAlignment = Alignment.CenterStart
                     ) {
-                        innerTextField()
+                        if (gratitudeText.isEmpty() && !isFocused.value) {
+                            Text(
+                                text = stringResource(R.string.text_add_bottom_hint),
+                                color = Color.White,
+                                style = GratitudeTheme.typography.regular,
+                                fontSize = 14.sp
+                            )
+                        }
+                        Box(
+                            modifier = Modifier.padding(15.dp)
+                        ) {
+                            innerTextField()
+                        }
                     }
                 }
-            }
-        )
+            )
+        }
     }
 }
+
 
 @Composable
 fun SaveGratitudeButton(

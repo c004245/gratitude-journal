@@ -24,6 +24,7 @@ import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -35,6 +36,8 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalBottomSheet
@@ -53,6 +56,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
@@ -355,6 +359,8 @@ private fun BottomAddGratitudeButton(
     onClickAddGratitude: () -> Unit,
     todayGratitudeSummary: TodayGratitudeSummary?
 ) {
+    val interactionSource = remember { MutableInteractionSource() } // remember로 메모이제이션
+
     Image(
         painter = if (todayGratitudeSummary?.hasWrittenToday == true) {
             painterResource(id = R.drawable.ic_today_done_gratitude)
@@ -366,7 +372,11 @@ private fun BottomAddGratitudeButton(
         modifier = modifier
             .offset(y = -30.dp)
             .size(75.dp)
-            .clickable {
+            .clip(CircleShape) // 원 모양으로 클릭 영역을 제한
+            .clickable(
+                interactionSource = interactionSource,
+                indication = rememberRipple(bounded = true, radius = 40.dp) // 클릭 효과를 원형으로 설정
+            ) {
                 if (todayGratitudeSummary?.hasWrittenToday == false) {
                     onClickAddGratitude()
                 }
