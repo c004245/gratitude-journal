@@ -2,6 +2,7 @@ package kr.co.hyunwook.gratitude_journal.feature.total
 
 import kr.co.hyunwook.gratitude_journal.R
 import kr.co.hyunwook.gratitude_journal.ui.theme.GratitudeTheme
+import kr.co.hyunwook.gratitude_journal.ui.theme.black24
 import kr.co.hyunwook.gratitude_journal.ui.theme.blue8A
 import kr.co.hyunwook.gratitude_journal.ui.theme.blueA3
 import kr.co.hyunwook.gratitude_journal.ui.theme.blueA7
@@ -72,7 +73,7 @@ fun TotalScreen(
         viewModel.getYearGratitudeRecord(currentYear.toString())
     }
     Box(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize().background(black24)
     ) {
         Column(
             modifier = Modifier.fillMaxSize(),
