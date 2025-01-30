@@ -32,6 +32,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -208,6 +209,10 @@ fun TodayGratitdeWidget(
     modifier: Modifier = Modifier,
     todayGratitudeSummary: TodayGratitudeSummary?
 ) {
+    val context = LocalContext.current
+    val consecutiveDays = todayGratitudeSummary?.consecutiveDays ?: 0
+    val consecutiveDaysText = context.getString(R.string.text_gratitude_consecutive_days, consecutiveDays)
+
     Box(
         modifier = modifier
     ) {
@@ -216,7 +221,7 @@ fun TodayGratitdeWidget(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "${todayGratitudeSummary?.consecutiveDays}일 연속",
+                text = consecutiveDaysText,
                 style = GratitudeTheme.typography.regular,
                 color = yellowFF,
                 fontSize = 24.sp,
@@ -225,9 +230,9 @@ fun TodayGratitdeWidget(
             Spacer(Modifier.height(4.dp))
             Text(
                 text = if (todayGratitudeSummary?.hasWrittenToday == false) {
-                    "아직 작성 기록이 없어요"
+                    stringResource(R.string.text_gratitude_none)
                 } else {
-                    "감사 일기 작성 중"
+                    stringResource(R.string.text_gratitude_ongoing)
                 },
 
                 style = GratitudeTheme.typography.regular,

@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">Deer Days</string>
+    <string name="text_next">next</string>
+    <string name="text_start">start</string>
+    <string name="text_splash">"I am grateful for this precious day"</string>
+    <string name="text_total_title">\"I am grateful for this precious day\"</string>
+    <string name="text_send">"send"</string>
+    <string name="text_splash_bottom">"Deer Days"</string>
+    <string name="text_today_gratitude">"Today's Gratitude"</string>
+    <string name="text_total_gratitude">"View All"</string>
+    <string name="text_add_bottom_title">"My Gratitude for Today"</string>
+    <string name="text_home_deer_send_title">"Deer's Gratitude for Today"</string>
+    <string name="text_home_my_send_title">"My Gratitude for Today"</string>
+    <string name="text_home_my_send_message_default">"Tap the gratitude button below\nand write your gratitude journal for today!"</string>
+    <string name="text_done_gratitude">"Today's gratitude entry has been completed."</string>
+    <string name="text_add_bottom_hint">"Tap the speech bubble to write your entry."</string>
+    <string name="text_gratitude_none">No entries written yet</string>
+    <string name="text_gratitude_ongoing">Writing gratitude journal</string>
+    <string name="text_gratitude_consecutive_days">%d days in a row</string>
+    <string name="text_gratitude_yearly">Gratitude Journal of %d</string>
+
+    <string name="text_onboarding_title1">You\'re not writing a gratitude journal alone!</string>
+    <string name="text_onboarding_title2">You can easily write a gratitude journal!</string>
+    <string name="text_onboarding_title3">Gratitude is the first step to changing your life!</string>
+
+    <string name="text_onboarding_description1">Let\'s write a gratitude journal together.\nI\'ll also share moments of gratitude\nwith you every day.</string>
+    <string name="text_onboarding_description2">As you write your gratitude journal daily,\nyou can look back on your past gratitude\nentries month by month!</string>
+    <string name="text_onboarding_description3">Find peace in your heart through gratitude\njournaling and bring more positivity\ninto your life!</string>
+
+
+</resources>

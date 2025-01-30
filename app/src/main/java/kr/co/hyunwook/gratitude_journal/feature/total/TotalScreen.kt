@@ -51,6 +51,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -135,6 +136,9 @@ fun TotalMonthly(
     onPreviousYear: () -> Unit,
     onNextYear: () -> Unit
 ) {
+    val context = LocalContext.current
+    val text = context.getString(R.string.text_gratitude_yearly, year)
+
     Row(
         modifier = Modifier.fillMaxWidth().padding(top = 10.dp, start = 20.dp, end = 20.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -148,7 +152,7 @@ fun TotalMonthly(
             })
 
         Text(
-            text = "${year}년의 감사일기",
+            text = text,
             style = GratitudeTheme.typography.regular,
             color = yellowFF,
             fontSize = 14.sp,

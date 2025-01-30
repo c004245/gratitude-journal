@@ -52,18 +52,18 @@ fun OnBoardingScreen(
     val pages = listOf(
         OnBoardingData(
             imageRes = R.drawable.ic_onboarding_1,
-            title = "혼자 감사일기를 적는게 아니에요!",
-            description = "저와 함께 감사 일기를 써 보아요.\n저도 매일 감사했던 순간들을\n여러분들께 말씀드릴게요."
+            title = stringResource(R.string.text_onboarding_title1),
+            description =  stringResource(R.string.text_onboarding_description1),
         ),
         OnBoardingData(
             imageRes = R.drawable.ic_onboarding_2,
-            title = "간단하게 감사 일기를 적을 수 있어요!",
-            description = "매일 감사 일기를 쓰다보면,\n내가 어떤 감사를 기록했는지\n달별로 확인할 수 있어요!"
+            title = stringResource(R.string.text_onboarding_title2),
+            description =  stringResource(R.string.text_onboarding_description2),
         ),
         OnBoardingData(
             imageRes = R.drawable.ic_onboarding_3,
-            title = "감사는 삶을 변화시키는 첫걸음이에요!",
-            description = "감사 일기를 쓰며 마음에 평화를 가지고,\n삶에 긍정을 조금씩 더해 보세요!"
+            title = stringResource(R.string.text_onboarding_title3),
+            description =  stringResource(R.string.text_onboarding_description3),
         )
     )
 
